@@ -13,9 +13,23 @@ struct SingleDivisionView: View {
         VStack {
             List {
                 Section {
-                    ForEach($division.people) { $person in
+                    NavigationLink(destination: CalculationsView(calculations: division.countUp())) {
+                        Label("Calculated Divisions", systemImage: "function")
+                            .font(.headline)
+                        .foregroundColor(.accentColor)
+                    }
+                    HStack {
+                        Label("Total", systemImage: "banknote")
+                        Spacer()
+                        Text("\(division.total, specifier: "%.2f") zł")
+                    }
+                } header: {
+                    Text("Summary")
+                }
+                Section {
+                    ForEach(division.people.sorted()) { person in
                         Section {
-                            ForEach($person.expenses) { $expense in
+                            ForEach(person.expenses.sorted()) { expense in
                                 HStack {
                                     Label("\(expense.name)", systemImage: "diamond")
                                     Spacer()
@@ -24,8 +38,14 @@ struct SingleDivisionView: View {
                                 .listRowSeparator(.hidden)
                             }
                         } header: {
-                            Label("\(person.name)", systemImage: "person")
-                                .font(.headline)
+                            HStack {
+                                Label("\(person.name)", systemImage: "person")
+                                    .font(.headline)
+                                Spacer()
+                                Text("\(person.balance, specifier: "%.2f") zł")
+                                    .font(.footnote.bold())
+                                    .foregroundColor(person.balance < 0 ? Color.red : Color.green)
+                            }
                         }
                     }
                 } header: {

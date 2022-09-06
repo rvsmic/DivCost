@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70528C7596F00C0143B /* CalculationsView.swift */; };
+		904DD70828C759C300C0143B /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70728C759C300C0143B /* Calculations.swift */; };
 		9083F55528C6B5970082AF15 /* DivCostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55428C6B5970082AF15 /* DivCostApp.swift */; };
 		9083F55728C6B5970082AF15 /* DivisionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55628C6B5970082AF15 /* DivisionsView.swift */; };
 		9083F55928C6B59A0082AF15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9083F55828C6B59A0082AF15 /* Assets.xcassets */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		904DD70528C7596F00C0143B /* CalculationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationsView.swift; sourceTree = "<group>"; };
+		904DD70728C759C300C0143B /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
 		9083F55128C6B5970082AF15 /* DivCost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DivCost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9083F55428C6B5970082AF15 /* DivCostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivCostApp.swift; sourceTree = "<group>"; };
 		9083F55628C6B5970082AF15 /* DivisionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionsView.swift; sourceTree = "<group>"; };
@@ -63,6 +67,7 @@
 				9083F55428C6B5970082AF15 /* DivCostApp.swift */,
 				9083F55628C6B5970082AF15 /* DivisionsView.swift */,
 				9083F56928C6BB490082AF15 /* SingleDivisionView.swift */,
+				904DD70528C7596F00C0143B /* CalculationsView.swift */,
 				9083F55828C6B59A0082AF15 /* Assets.xcassets */,
 				9083F55A28C6B59A0082AF15 /* Preview Content */,
 			);
@@ -83,6 +88,7 @@
 				9083F56328C6B6EC0082AF15 /* Product.swift */,
 				9083F56528C6B7F40082AF15 /* Person.swift */,
 				9083F56728C6B9080082AF15 /* Division.swift */,
+				904DD70728C759C300C0143B /* Calculations.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -162,7 +168,9 @@
 				9083F56828C6B9080082AF15 /* Division.swift in Sources */,
 				9083F56A28C6BB490082AF15 /* SingleDivisionView.swift in Sources */,
 				9083F56628C6B7F40082AF15 /* Person.swift in Sources */,
+				904DD70828C759C300C0143B /* Calculations.swift in Sources */,
 				9083F56428C6B6ED0082AF15 /* Product.swift in Sources */,
+				904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@ struct DivisionsView: View {
                     NavigationLink(destination: SingleDivisionView(division: $division)) {
                         HStack {
                             Text(division.name)
+                                .font(.headline)
                             Spacer()
                             Text("\(division.total, specifier: "%.2f") zł")
                         }

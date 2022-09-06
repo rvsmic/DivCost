@@ -7,7 +7,15 @@
 
 import Foundation
 
-struct Product: Identifiable {
+struct Product: Identifiable, Comparable {
+    static func < (lhs: Product, rhs: Product) -> Bool {
+        if lhs.name < rhs.name {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     let id: UUID
     var name: String
     var price: Double
