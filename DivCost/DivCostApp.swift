@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct DivCostApp: App {
+    
+    @State var divisions: [Division] = Division.sampleDivisions
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DivisionsView(divisions: $divisions)
         }
     }
 }
