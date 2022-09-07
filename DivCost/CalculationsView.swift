@@ -22,6 +22,7 @@ struct CalculationsView: View {
                             Image(systemName: "arrow.right")
                                 .font(.headline)
                         }
+                        .foregroundColor(.accentColor)
                         Spacer()
                         Text(calculation.payerName)
                     }
@@ -30,7 +31,13 @@ struct CalculationsView: View {
                 }
             } header: {
                 Spacer()
+            } footer: { //idk po co
+                Text("fin.")
+                    .font(.caption.italic())
+                    .foregroundColor(.gray)
+                    .listRowSeparator(.hidden)
             }
+
         }
         .listStyle(.plain)
         .navigationTitle("Calculated Divisions")

@@ -17,6 +17,10 @@
 		9083F56628C6B7F40082AF15 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F56528C6B7F40082AF15 /* Person.swift */; };
 		9083F56828C6B9080082AF15 /* Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F56728C6B9080082AF15 /* Division.swift */; };
 		9083F56A28C6BB490082AF15 /* SingleDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F56928C6BB490082AF15 /* SingleDivisionView.swift */; };
+		90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */; };
+		90A3A28E28C7A2F300296A7C /* EditDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A28D28C7A2F300296A7C /* EditDivisionView.swift */; };
+		90A8D5A128C7F48F00F5FDAF /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */; };
+		90A8D5A328C8001C00F5FDAF /* ForegroundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +35,10 @@
 		9083F56528C6B7F40082AF15 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		9083F56728C6B9080082AF15 /* Division.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Division.swift; sourceTree = "<group>"; };
 		9083F56928C6BB490082AF15 /* SingleDivisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDivisionView.swift; sourceTree = "<group>"; };
+		90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallIconLabel.swift; sourceTree = "<group>"; };
+		90A3A28D28C7A2F300296A7C /* EditDivisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDivisionView.swift; sourceTree = "<group>"; };
+		90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
+		90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,10 +71,12 @@
 		9083F55328C6B5970082AF15 /* DivCost */ = {
 			isa = PBXGroup;
 			children = (
+				90A3A28A28C79CFE00296A7C /* Style */,
 				9083F56228C6B6DC0082AF15 /* Models */,
 				9083F55428C6B5970082AF15 /* DivCostApp.swift */,
 				9083F55628C6B5970082AF15 /* DivisionsView.swift */,
 				9083F56928C6BB490082AF15 /* SingleDivisionView.swift */,
+				90A3A28D28C7A2F300296A7C /* EditDivisionView.swift */,
 				904DD70528C7596F00C0143B /* CalculationsView.swift */,
 				9083F55828C6B59A0082AF15 /* Assets.xcassets */,
 				9083F55A28C6B59A0082AF15 /* Preview Content */,
@@ -91,6 +101,16 @@
 				904DD70728C759C300C0143B /* Calculations.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		90A3A28A28C79CFE00296A7C /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */,
+				90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */,
+				90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */,
+			);
+			path = Style;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +189,10 @@
 				9083F56A28C6BB490082AF15 /* SingleDivisionView.swift in Sources */,
 				9083F56628C6B7F40082AF15 /* Person.swift in Sources */,
 				904DD70828C759C300C0143B /* Calculations.swift in Sources */,
+				90A8D5A128C7F48F00F5FDAF /* CheckBoxView.swift in Sources */,
+				90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */,
+				90A8D5A328C8001C00F5FDAF /* ForegroundButton.swift in Sources */,
+				90A3A28E28C7A2F300296A7C /* EditDivisionView.swift in Sources */,
 				9083F56428C6B6ED0082AF15 /* Product.swift in Sources */,
 				904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */,
 			);

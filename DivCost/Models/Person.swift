@@ -16,6 +16,14 @@ struct Person: Identifiable, Comparable {
         }
     }
     
+    static func nameSort (lhs: Person, rhs: Person) -> Bool {
+        if lhs.name < rhs.name {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     let id: UUID
     var name: String
     var expenses: [Product]
