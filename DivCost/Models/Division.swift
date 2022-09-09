@@ -46,6 +46,24 @@ struct Division: Identifiable {
         }
         return calculations
     }
+    
+    mutating func addProduct(newName: String, newPrice: Double, buyerId: UUID, debtorsId: [UUID]) {
+        let newProduct = Product(name: newName, price: newPrice)
+        let dividedProduct = Product(name: newName, price: Double(newPrice / Double(debtorsId.count)))
+        
+        for i in 0..<people.count {
+            for j in 0..<debtorsId.count {
+                if people[i].id == debtorsId[j] {
+                    people[i].debts.append(dividedProduct)
+                    break
+                }
+            }
+            
+            if people[i].id == buyerId {
+                people[i].expenses.append(newProduct)
+            }
+        }
+    }
 }
 
 extension Division {

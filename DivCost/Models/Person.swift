@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Person: Identifiable, Comparable {
     static func < (lhs: Person, rhs: Person) -> Bool {
@@ -43,13 +44,19 @@ struct Person: Identifiable, Comparable {
         return balance
     }
     var staticBalance: Double
+    var checked: Bool
     
-    init(id: UUID = UUID(), name: String, expenses: [Product] = [], debts: [Product] = [], staticBalance: Double = 0) {
+    init(id: UUID = UUID(), name: String, expenses: [Product] = [], debts: [Product] = [], staticBalance: Double = 0, checked: Bool = false) {
         self.id = id
         self.name = name
         self.expenses = expenses
         self.debts = debts
         self.staticBalance = staticBalance
+        self.checked = checked
+    }
+    
+    mutating func checkReset() {
+        self.checked = false
     }
 }
 

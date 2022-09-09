@@ -14,14 +14,28 @@ struct CheckBoxView: View {
     
     var body: some View {
         Label(text, systemImage: checked ? "checkmark.circle.fill" : "checkmark.circle")
+            .animation(Animation.easeInOut, value: 0.5)
             .onTapGesture {
-                self.checked.toggle()
+                checked.toggle()
             }
     }
 }
 
-struct CheckBoxView_Previews: PreviewProvider {
+//struct CheckBoxView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CheckBoxView(text: "Somebody", checked: .constant(false))
+//    }
+//}
+
+struct test: View {
+    @State private var checked: Bool = false
+    var body: some View {
+        CheckBoxView(text: "Dude", checked: $checked)
+    }
+}
+
+struct preview: PreviewProvider {
     static var previews: some View {
-        CheckBoxView(text: "Somebody", checked: .constant(false))
+        test()
     }
 }

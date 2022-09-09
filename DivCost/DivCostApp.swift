@@ -17,6 +17,7 @@ struct DivCostApp: App {
             NavigationView {
                 DivisionsView(divisions: $divisions)
             }
+            .navigationViewStyle(.stack)
         }
     }
 }

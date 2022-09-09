@@ -10,6 +10,8 @@ import SwiftUI
 struct SingleDivisionView: View {
     
     @Binding var division: Division
+    @State private var editSheetShown = false
+    
     var body: some View {
         VStack {
             List {
@@ -67,14 +69,33 @@ struct SingleDivisionView: View {
                     Text("People")
                 }
             }
-            .listStyle(.plain)
-            .padding([.leading,.trailing])
+            //.listStyle(.plain)
+            //.padding([.leading,.trailing])
         }
         .navigationTitle(division.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: EditDivisionView(division: $division)) {
-                    Text("Edit")
+                Button("Edit") {
+                    editSheetShown = true
+                }
+            }
+        }
+        .sheet(isPresented: $editSheetShown) {
+            NavigationView {
+                EditDivisionView(division: $division)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                editSheetShown = false
+                            }
+                            .foregroundColor(.red)
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Update") {
+                                editSheetShown = false
+                                //zapis
+                            }
+                        }
                 }
             }
         }

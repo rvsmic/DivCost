@@ -32,7 +32,7 @@ struct DivisionsView: View {
                 }
             }
         }
-        .listStyle(.plain)
+        //.listStyle(.plain)
         .navigationTitle("DivCost")
     }
 }
