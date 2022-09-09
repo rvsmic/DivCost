@@ -35,7 +35,6 @@ struct SingleDivisionView: View {
                             ForEach(person.expenses.sorted()) { expense in
                                 HStack {
                                     Label("\(expense.name)", systemImage: "chevron.up")
-                                        //.labelStyle(SmallIconLabel())
                                     Spacer()
                                     Text("\(expense.price, specifier: "%.2f") zł") //można potem dodać wybieranie waluty i guess
                                 }
@@ -82,7 +81,7 @@ struct SingleDivisionView: View {
         }
         .sheet(isPresented: $editSheetShown) {
             NavigationView {
-                EditDivisionView(division: $division)
+                AddExpensesView(division: $division)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Cancel") {

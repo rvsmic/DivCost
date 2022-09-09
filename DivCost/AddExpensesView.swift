@@ -1,5 +1,5 @@
 //
-//  EditDivisionView.swift
+//  AddExpensesView.swift
 //  DivCost
 //
 //  Created by Michał Rusinek on 06/09/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditDivisionView: View {
+struct AddExpensesView: View {
     
     @Binding var division: Division
     
@@ -28,56 +28,26 @@ struct EditDivisionView: View {
         //Form {
             List {
                 Section {
-                    HStack {
-                        TextField(division.name, text: $newDivisionName)
-                        Spacer()
-                        Button(action: {
-                            division.name = newDivisionName
-                            newDivisionName = ""
-                        }) {
-                            Image(systemName: "checkmark")
-                        }
-                        .disabled(newDivisionName.isEmpty)
+                    NavigationLink(destination: EditSingleDivisionView(division: $division)) {
+                        Text("Edit division details")
                     }
-                    Text("People:")
-                        .font(.headline)
-                    ForEach(division.people) { person in
-                        Text(person.name)
-                    }
-                    .onDelete { indices in
-                        division.people.remove(atOffsets: indices)
-                    }
-                    .padding(.leading)
-                    HStack {
-                        TextField("New person", text: $newPerson)
-                        Spacer()
-                        Button(action: {
-                            division.people.append(Person(name: newPerson))
-                            newPerson = ""
-                        }) {
-                            Image(systemName: "plus")
-                        }
-                        .disabled(newPerson.isEmpty)
-                    }
-                    .padding(.leading)
-                    
                 } header: {
-                    Text("Details")
+                    Text("General")
                 }
                 
                 Section {
-                    TextField("Product name", text: $newName)
+                    TextField("Product Name", text: $newName)
                     HStack {
-                        TextField("Product price", text: $newPrice)
+                        TextField("Product Price", text: $newPrice)
                             .keyboardType(.numberPad)
                         Spacer()
                         Text("zł")
                     } //sprawdzic
                     HStack {
-                        Text("Who paid:")
+                        Text("Who Paid:")
                             .font(.headline)
                         Spacer()
-                        Picker("Who paid:", selection: $newBuyer) {
+                        Picker("Who Paid:", selection: $newBuyer) {
                             ForEach(division.people.sorted(by: Person.nameSort)) { person in
                                 Text(person.name)
                                     .tag(person.name)
@@ -87,7 +57,7 @@ struct EditDivisionView: View {
                     }
                     
                     HStack (alignment: .top) {
-                        Text("For whom:")
+                        Text("For Whom:")
                             .font(.headline)
                         Spacer()
                         VStack (alignment: .leading) {
@@ -135,35 +105,30 @@ struct EditDivisionView: View {
                         .disabled(newName.isEmpty || newPrice.isEmpty)
                         Spacer()
                     }
-                    .listRowBackground((newName.isEmpty || newPrice.isEmpty) ? Color.gray : Color.accentColor)
+                    .listRowBackground((newName.isEmpty || newPrice.isEmpty) ? Color.black.opacity(0.2) : Color.accentColor)
                 } header: {
-                    Text("New product")
+                    Text("New Product")
                 }
                 
                 Section {
-                    ForEach(division.people.sorted()) { person in
-                        //VStack (alignment: .leading){
-//                            Text(person.name)
-//                                .font(.headline)
-//                            Spacer()
-                            Section {
-                                ForEach(person.expenses.sorted()) { expense in
-                                    HStack {
-                                        Text(expense.name)
-                                        Spacer()
-                                        Text("\(expense.price, specifier: "%.2f") zł")
-                                    }
-                                    .padding(.leading)
+                    ForEach($division.people) { $person in //.sorted()
+                        Section {
+                            ForEach(person.expenses.sorted()) { expense in
+                                HStack {
+                                    Text(expense.name)
+                                    Spacer()
+                                    Text("\(expense.price, specifier: "%.2f") zł")
                                 }
-//                                .onDelete { indices in
-//                                    person.expenses.remove(atOffsets: indices)
-//                                }
-                            } header: {
-                                Text(person.name)
-                                    .font(.headline)
+                                .padding(.leading)
                             }
+//                            .onDelete { indices in
+//                                person.expenses.remove(atOffsets: indices)  //trzeba skasować również innym + to nie dziala o dziwos
+//                            }
+                        } header: {
+                            Text(person.name)
+                                .font(.headline)
                         }
-                    //}
+                    }
                 } header: {
                     Text("Expenses")
                 }
@@ -204,10 +169,10 @@ struct EditDivisionView: View {
     }
 }
 
-struct EditDivisionView_Previews: PreviewProvider {
+struct AddExpensesView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EditDivisionView(division: .constant(Division.sampleDivisions[1]))
+            AddExpensesView(division: .constant(Division.sampleDivisions[1]))
         }
         
     }

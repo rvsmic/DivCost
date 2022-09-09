@@ -8,31 +8,62 @@
 import SwiftUI
 
 struct DivisionsView: View {
+    
     @Binding var divisions: [Division]
+    
+    @State private var showEditSheet = false
+    
     var body: some View {
-        List {
-            Section {
-                ForEach($divisions) { $division in
-                    NavigationLink(destination: SingleDivisionView(division: $division)) {
-                        HStack {
-                            Text(division.name)
-                                .font(.headline)
-                            Spacer()
-                            Text("\(division.total, specifier: "%.2f") zł")
+        Form {
+            List {
+                Section {
+                    ForEach($divisions) { $division in
+                        NavigationLink(destination: SingleDivisionView(division: $division)) {
+                            HStack {
+                                Text(division.name)
+                                    .font(.headline)
+                                Spacer()
+                                Text("\(division.total, specifier: "%.2f") zł")
+                            }
+                            .padding()
                         }
-                        .padding()
+                    }
+                } header: {
+                    HStack {
+                        Text("Divisions")
+                        Spacer()
+                        Text("Total")
+                            .padding(.trailing)
                     }
                 }
-            } header: {
-                HStack {
-                    Text("Divisions")
-                    Spacer()
-                    Text("Total")
-                        .padding(.trailing)
-                }
+            }
+            //.listStyle(.plain)
+        }
+        .toolbar {
+            ToolbarItem (placement: .navigationBarTrailing) {
+                Button("Edit", action: {
+                    showEditSheet = true
+                })
             }
         }
-        //.listStyle(.plain)
+        .sheet(isPresented: $showEditSheet) {
+            NavigationView {
+                EditMultipleDivisionsView(divisions: $divisions) //przekazywac data a nie faktyczne
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                showEditSheet = false
+                            }
+                            .foregroundColor(.red)
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Update") {
+                                showEditSheet = false
+                            }
+                        }
+                    }
+            }
+        }
         .navigationTitle("DivCost")
     }
 }
