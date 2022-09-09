@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddExpensesView: View {
     
-    @Binding var division: Division
+    @Binding var data: Division.Data
     
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
@@ -20,15 +20,11 @@ struct AddExpensesView: View {
     
     @State private var showNumberError: Bool = false
     
-    init(division: Binding<Division>) {
-        self._division = division//.people.sorted(by: { $person1, $person2 in return person1.name > person2.name } )
-    }
-    
     var body: some View {
         //Form {
             List {
                 Section {
-                    NavigationLink(destination: EditSingleDivisionView(division: $division)) {
+                    NavigationLink(destination: EditSingleDivisionView(data: $data)) {
                         Text("Edit division details")
                     }
                 } header: {
@@ -48,7 +44,7 @@ struct AddExpensesView: View {
                             .font(.headline)
                         Spacer()
                         Picker("Who Paid:", selection: $newBuyer) {
-                            ForEach(division.people.sorted(by: Person.nameSort)) { person in
+                            ForEach(data.people.sorted(by: Person.nameSort)) { person in
                                 Text(person.name)
                                     .tag(person.name)
                             }
@@ -61,7 +57,7 @@ struct AddExpensesView: View {
                             .font(.headline)
                         Spacer()
                         VStack (alignment: .leading) {
-                            ForEach($division.people) { $person in
+                            ForEach($data.people) { $person in
                                 CheckBoxView(text: person.name, checked: $person.checked)
                                     .padding(1)
                             }
@@ -74,7 +70,7 @@ struct AddExpensesView: View {
                             var debtorsId: [UUID] = []
                             var buyerId: UUID = UUID()
                             
-                            for person in division.people {
+                            for person in data.people {
                                 if person.checked {
                                     debtorsId.append(person.id)
                                 }
@@ -85,16 +81,16 @@ struct AddExpensesView: View {
                             
                             if let doubleNewPrice = newPrice.toDouble() {
                                 withAnimation {
-                                    division.addProduct(newName: newName, newPrice: doubleNewPrice, buyerId: buyerId, debtorsId: debtorsId)
+                                    data.addProduct(newName: newName, newPrice: doubleNewPrice, buyerId: buyerId, debtorsId: debtorsId)
                                 }
                             } else {
-                                showNumberError = true //cos wyswietlić
+                                showNumberError = true
                             }
                             newName = ""
                             newPrice = ""
-                            newBuyer = division.people.sorted(by: Person.nameSort)[0].name
-                            for i in 0..<division.people.count {
-                                division.people[i].checkReset()
+                            newBuyer = data.people.sorted(by: Person.nameSort)[0].name
+                            for i in 0..<data.people.count {
+                                data.people[i].checkReset()
                             }
                             
                         }) {
@@ -111,7 +107,7 @@ struct AddExpensesView: View {
                 }
                 
                 Section {
-                    ForEach($division.people) { $person in //.sorted()
+                    ForEach($data.people) { $person in //.sorted()
                         Section {
                             ForEach(person.expenses.sorted()) { expense in
                                 HStack {
@@ -134,12 +130,12 @@ struct AddExpensesView: View {
                 }
             }
             .onAppear {
-                if !division.people.isEmpty {
-                    newBuyer = division.people.sorted(by: Person.nameSort)[0].name
+                if !data.people.isEmpty {
+                    newBuyer = data.people.sorted(by: Person.nameSort)[0].name
                 }
-                newDivisionName = division.name
-                for i in 0..<division.people.count {
-                    division.people[i].checkReset()
+                newDivisionName = data.name
+                for i in 0..<data.people.count {
+                    data.people[i].checkReset()
                 }
             }
             .sheet(isPresented: $showNumberError) { //moze zmienic na popup tylko
@@ -163,7 +159,7 @@ struct AddExpensesView: View {
             
             //.listStyle(.plain)
             //.padding([.leading,.trailing])
-            .navigationTitle("\(division.name)")
+            .navigationTitle("\(data.name)")
             .navigationBarTitleDisplayMode(.inline)
         //}
     }
@@ -172,7 +168,7 @@ struct AddExpensesView: View {
 struct AddExpensesView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AddExpensesView(division: .constant(Division.sampleDivisions[1]))
+            AddExpensesView(data: .constant(Division.sampleDivisions[1].data))
         }
         
     }

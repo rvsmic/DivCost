@@ -11,6 +11,8 @@ struct DivisionsView: View {
     
     @Binding var divisions: [Division]
     
+    @State private var data = MultipleDivisions.MultipleData()
+    
     @State private var showEditSheet = false
     
     var body: some View {
@@ -42,13 +44,16 @@ struct DivisionsView: View {
         .toolbar {
             ToolbarItem (placement: .navigationBarTrailing) {
                 Button("Edit", action: {
+                    let multipleDivisions = MultipleDivisions(divisions: divisions)
+                    data = multipleDivisions.multipleData
+                    
                     showEditSheet = true
                 })
             }
         }
         .sheet(isPresented: $showEditSheet) {
             NavigationView {
-                EditMultipleDivisionsView(divisions: $divisions) //przekazywac data a nie faktyczne
+                EditMultipleDivisionsView(data: $data)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Cancel") {
@@ -58,6 +63,10 @@ struct DivisionsView: View {
                         }
                         ToolbarItem(placement: .confirmationAction) {
                             Button("Update") {
+                                var multipleDivisions = MultipleDivisions(divisions: divisions)
+                                multipleDivisions.update(from: data)
+                                divisions = multipleDivisions.unwrap()
+                                //divisions = divisions.sorted() //moze wg daty sortowanie kiedys
                                 showEditSheet = false
                             }
                         }

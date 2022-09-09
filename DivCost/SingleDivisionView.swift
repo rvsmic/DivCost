@@ -10,6 +10,9 @@ import SwiftUI
 struct SingleDivisionView: View {
     
     @Binding var division: Division
+    
+    @State private var data = Division.Data()
+    
     @State private var editSheetShown = false
     
     var body: some View {
@@ -75,13 +78,14 @@ struct SingleDivisionView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Edit") {
+                    data = division.data
                     editSheetShown = true
                 }
             }
         }
         .sheet(isPresented: $editSheetShown) {
             NavigationView {
-                AddExpensesView(division: $division)
+                AddExpensesView(data: $data)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Cancel") {
@@ -91,8 +95,9 @@ struct SingleDivisionView: View {
                         }
                         ToolbarItem(placement: .confirmationAction) {
                             Button("Update") {
+                                division.update(from: data)
+                                division.people.sort(by: Person.nameSort)
                                 editSheetShown = false
-                                //zapis
                             }
                         }
                 }

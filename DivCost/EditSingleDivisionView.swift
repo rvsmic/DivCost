@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditSingleDivisionView: View {
     
-    @Binding var division: Division
+    @Binding var data: Division.Data
     
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
@@ -20,7 +20,7 @@ struct EditSingleDivisionView: View {
                 TextField("New Division Name", text: $newDivisionName)
                 Spacer()
                 Button(action: {
-                    division.name = newDivisionName
+                    data.name = newDivisionName
                     newDivisionName = ""
                 }) {
                     Image(systemName: "checkmark")
@@ -29,12 +29,12 @@ struct EditSingleDivisionView: View {
             }
             Text("People:")
                 .font(.headline)
-            ForEach(division.people) { person in
+            ForEach(data.people) { person in
                 Text(person.name)
             }
             .onDelete { indices in
                 withAnimation {
-                    division.people.remove(atOffsets: indices)
+                    data.people.remove(atOffsets: indices)
                 }
             }
             .padding(.leading)
@@ -43,7 +43,7 @@ struct EditSingleDivisionView: View {
                 Spacer()
                 Button(action: {
                     withAnimation {
-                        division.people.append(Person(name: newPerson))
+                        data.people.append(Person(name: newPerson))
                     }
                     newPerson = ""
                 }) {
@@ -53,12 +53,12 @@ struct EditSingleDivisionView: View {
             }
             .padding(.leading)
         }
-        .navigationTitle(division.name)
+        .navigationTitle(data.name)
     }
 }
 
 struct EditSingleDivisionView_Previews: PreviewProvider {
     static var previews: some View {
-        EditSingleDivisionView(division: .constant(Division.sampleDivisions[1]))
+        EditSingleDivisionView(data: .constant(Division.sampleDivisions[1].data))
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditMultipleDivisionsView: View {
     
-    @Binding var divisions: [Division]
+    @Binding var data: MultipleDivisions.MultipleData
     
     @State private var newPeople: [Person] = []
     @State private var newDivisionName: String = ""
@@ -48,7 +48,7 @@ struct EditMultipleDivisionsView: View {
                     Spacer()
                     Button(action: {
                         withAnimation {
-                            divisions.append(Division(name: newDivisionName, people: newPeople))
+                            data.divisions.append(Division(name: newDivisionName, people: newPeople))
                         }
                         newPerson = ""
                         newDivisionName = ""
@@ -70,11 +70,11 @@ struct EditMultipleDivisionsView: View {
             }
             
             Section {
-                ForEach(divisions) { division in
+                ForEach(data.divisions) { division in
                     Text(division.name)
                 }
                 .onDelete { indices in
-                    divisions.remove(atOffsets: indices)
+                    data.divisions.remove(atOffsets: indices)
                 }
             } header: {
                 Text("Divisions")
@@ -88,7 +88,7 @@ struct EditMultipleDivisionsView: View {
 struct EditMultipleDivisionsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EditMultipleDivisionsView(divisions: .constant(Division.sampleDivisions))
+            EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData))
         }
     }
 }
