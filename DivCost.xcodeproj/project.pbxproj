@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		901E260D28CF844E004FC8AB /* DualColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901E260C28CF844E004FC8AB /* DualColorLabel.swift */; };
+		901E260F28CF8629004FC8AB /* OtherMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901E260E28CF8629004FC8AB /* OtherMethods.swift */; };
 		904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70528C7596F00C0143B /* CalculationsView.swift */; };
 		904DD70828C759C300C0143B /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70728C759C300C0143B /* Calculations.swift */; };
 		9083F55528C6B5970082AF15 /* DivCostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55428C6B5970082AF15 /* DivCostApp.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		901E260C28CF844E004FC8AB /* DualColorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualColorLabel.swift; sourceTree = "<group>"; };
+		901E260E28CF8629004FC8AB /* OtherMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherMethods.swift; sourceTree = "<group>"; };
 		904DD70528C7596F00C0143B /* CalculationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationsView.swift; sourceTree = "<group>"; };
 		904DD70728C759C300C0143B /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
 		9083F55128C6B5970082AF15 /* DivCost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DivCost.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +119,8 @@
 				90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */,
 				90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */,
 				90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */,
+				901E260C28CF844E004FC8AB /* DualColorLabel.swift */,
+				901E260E28CF8629004FC8AB /* OtherMethods.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -200,7 +206,9 @@
 				90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */,
 				90A8D5A328C8001C00F5FDAF /* ForegroundButton.swift in Sources */,
 				90A3A28E28C7A2F300296A7C /* AddExpensesView.swift in Sources */,
+				901E260D28CF844E004FC8AB /* DualColorLabel.swift in Sources */,
 				9083F56428C6B6ED0082AF15 /* Product.swift in Sources */,
+				901E260F28CF8629004FC8AB /* OtherMethods.swift in Sources */,
 				909C7D3328CBACD600B6A399 /* EditMultipleDivisionsView.swift in Sources */,
 				904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */,
 			);

@@ -14,10 +14,9 @@ struct DivCostApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
                 DivisionsView(divisions: $divisions)
-            }
-            .navigationViewStyle(.stack)
+            
+            //.navigationViewStyle(.stack)
         }
     }
 }
