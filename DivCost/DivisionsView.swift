@@ -48,6 +48,10 @@ struct DivisionsView: View {
                             ZStack {
                                 Circle()
                                     .fill(.black.opacity(0.4))
+                                    .overlay {
+                                        Circle()
+                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                    }
                                 Button(action: {
                                     withAnimation {
                                         showDivisionView = false
@@ -103,6 +107,10 @@ struct DivisionsView: View {
                                         ZStack {
                                             Circle()
                                                 .fill(.red.opacity(0.5))
+                                                .overlay {
+                                                    Circle()
+                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                }
                                             Button(action: {
                                                 withAnimation {
                                                     showEditView = false
@@ -121,6 +129,10 @@ struct DivisionsView: View {
                                             ZStack {
                                                 Circle()
                                                     .fill(.black.opacity(0.4))
+                                                    .overlay {
+                                                        Circle()
+                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                    }
                                                 Button(action: {
                                                     var multipleDivisions = MultipleDivisions(divisions: divisions)
                                                     multipleDivisions.update(from: data)
@@ -217,7 +229,10 @@ struct DivisionsView: View {
                                                     ZStack {
                                                         RoundedRectangle(cornerRadius: 20)
                                                             .fill(mainColor)
-                                                            .overlay(RoundedRectangle(cornerRadius: 20).offset(x: -1, y: -1).stroke(.black.opacity(0.3)).blur(radius: 2).clipShape(RoundedRectangle(cornerRadius: 20)))
+                                                            .overlay {
+                                                                RoundedRectangle(cornerRadius: 20)
+                                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                            }
                                                         Label("\(division.people.count)", systemImage: "person.2")
                                                             .font(.caption)
                                                             .padding(10)
@@ -243,7 +258,11 @@ struct DivisionsView: View {
                                         ZStack {
                                             Circle()
                                                 .fill(mainColor)
-                                                .shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 1)
+                                                .overlay {
+                                                    Circle()
+                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                }
+                                                //.shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 1)
                                             Button(action: {
                                                 let multipleDivisions = MultipleDivisions(divisions: divisions)
                                                 data = multipleDivisions.multipleData

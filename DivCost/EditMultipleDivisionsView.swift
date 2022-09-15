@@ -36,7 +36,7 @@ struct EditMultipleDivisionsView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(mainColor)
-                            .shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
+                            //.shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
                         
                         List {
                             Section {

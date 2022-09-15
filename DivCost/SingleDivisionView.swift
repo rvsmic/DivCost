@@ -73,6 +73,10 @@ struct SingleDivisionView: View {
                             ZStack (alignment: .leading){
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(themeColor)
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                    }
                                 HStack {
                                     Label("Calculated Divisions", systemImage: "function")
                                         .labelStyle(DualColorLabel(iconColor: .black))
@@ -224,6 +228,10 @@ struct SingleDivisionView: View {
                     ZStack {
                         Circle()
                             .fill(themeColor)
+                            .overlay {
+                                Circle()
+                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                            }
                         Button(action: {
                             withAnimation {
                                 editSheetShown = true
