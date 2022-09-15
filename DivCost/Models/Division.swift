@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Division: Identifiable {
     let id: UUID
@@ -45,6 +46,15 @@ struct Division: Identifiable {
             }
         }
         return calculations
+    }
+    
+    static func getFromID(divisions: Binding<[Division]>, ID: UUID) -> Binding<Division> {
+        for division in divisions {
+            if division.id == ID {
+                return division
+            }
+        }
+        return divisions[0]
     }
 }
 

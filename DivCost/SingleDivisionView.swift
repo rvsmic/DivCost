@@ -14,103 +14,281 @@ struct SingleDivisionView: View {
     @State private var data = Division.Data()
     
     @State private var editSheetShown = false
+    @State private var showEditView = true
+    
+    @State private var bottomOffset = UIScreen.main.bounds.height
+    @State private var topOffset = -UIScreen.main.bounds.height*0.5
+    
+    let themeColor = Color.mint//Color("MainColor")
+    let themeDarkerColor = Color(UIColor(Color.mint).darker().darker())
+    let themeLighterColor = Color.mint.opacity(0.2)
+    
+    var namespace: Namespace.ID
+    
+    init(division: Binding<Division>, namespace: Namespace.ID) {
+        UITableView.appearance().backgroundColor = UIColor(Color.clear)
+        self._division = division
+        self.namespace = namespace
+    }
     
     var body: some View {
-        VStack {
-            List {
-                Section {
-                    NavigationLink(destination: CalculationsView(calculations: division.countUp())) {
-                        Label("Calculated Divisions", systemImage: "function")
-                            .font(.headline)
-                        .foregroundColor(.accentColor)
-                    }
-                    HStack {
-                        Label("Total", systemImage: "banknote")
-                        Spacer()
-                        Text("\(division.total, specifier: "%.2f") zł")
-                    }
-                } header: {
-                    Text("Summary")
+        ZStack {
+            VStack {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(themeColor)
+                        .ignoresSafeArea()
+                        //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.15, alignment: .center)
+                        //.shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
+                        .matchedGeometryEffect(id: "titleBG", in: namespace)
+                    
+                    Text(division.name)
+                        .foregroundColor(.black)
+                        .padding(.bottom,10)
+                        .font(.system(size: 40).weight(.bold))
+                        .offset(x: 0, y: topOffset)
+                        //.offset(x: 0, y: UIScreen.main.bounds.height*(0.02))
                 }
-                Section {
-                    ForEach(division.people.sorted()) { person in
-                        Section {
-                            ForEach(person.expenses.sorted()) { expense in
+                .fixedSize(horizontal: false, vertical: true)
+                //.ignoresSafeArea()
+                .matchedGeometryEffect(id: "title", in: namespace)
+                
+                VStack {
+                    //                RoundedRectangle(cornerRadius: 30)
+                    //                    .fill(themeLighterColor)
+                    //                    .ignoresSafeArea()
+                    //                    .shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
+                    //List {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .fill(themeLighterColor)
+                            .matchedGeometryEffect(id: "topBG", in: namespace)
+                        //List {
+                        //Section {
+                        VStack(alignment: .leading){
+                            Text("Summary:")
+                                .font(.footnote.bold())
+                                .foregroundColor(.black)
+                            //NavigationLink(destination: CalculationsView(calculations: division.countUp())) {
+                            ZStack (alignment: .leading){
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(themeColor)
                                 HStack {
-                                    Label("\(expense.name)", systemImage: "chevron.up")
+                                    Label("Calculated Divisions", systemImage: "function")
+                                        .labelStyle(DualColorLabel(iconColor: .black))
+                                        .font(.headline)
+                                        .foregroundColor(.black)
                                     Spacer()
-                                    Text("\(expense.price, specifier: "%.2f") zł") //można potem dodać wybieranie waluty i guess
+                                    Image(systemName: "chevron.right")
                                 }
-                                
-                                .foregroundColor(Color.darkGreen)
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.green.opacity(0.2))
+                                //.padding(10)
+                                .padding(.horizontal)
                             }
-                            ForEach(person.debts.sorted()) { debt in
-                                HStack {
-                                    Label("\(debt.name)", systemImage: "chevron.down")
-                                    Spacer()
-                                    Text("\(debt.price, specifier: "%.2f") zł")
-                                }
-                                .foregroundColor(Color.darkRed)
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.red.opacity(0.2))
-                            }
-                        } header: {
+                            //.scaledToFit()
+                            
+                            //}
                             HStack {
-                                Label("\(person.name)", systemImage: "person")
-                                    .font(.headline)
+                                Label("Total", systemImage: "banknote")
+                                    .labelStyle(DualColorLabel(iconColor: themeDarkerColor))
                                 Spacer()
-                                Text("\(person.balance, specifier: "%.2f") zł")
-                                    .font(.footnote.bold())
-                                    .foregroundColor(getBalanceColor(balance: person.balance))
+                                Text("\(division.total, specifier: "%.2f") zł")
                             }
+                            .padding(.horizontal)
+                            .padding(.top,5)
+                        }
+                        .padding()
+                        
+                        
+                        
+                        //.listRowBackground(Color.clear)
+                        //.listRowSeparator(.hidden)
+                        
+                        //}
+                        //.listStyle(.plain)
+                        //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.2, alignment: .bottom)
+                    }
+                    .scaledToFit()
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .fill(themeLighterColor)
+                            .matchedGeometryEffect(id: "bottomBG", in: namespace)
+                        VStack (alignment: .leading){
+                            VStack {
+                                Text("People & Expenses:")
+                                    .font(.footnote.bold())
+                                    .foregroundColor(.black)
+                            }
+                            .padding([.leading, .top])
+                            List {
+                                ForEach(division.people.sorted()) { person in
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(.white)
+                                            .overlay {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                            }
+                                        VStack {
+                                            HStack {
+                                                Label("\(person.name)", systemImage: "person")
+                                                    .font(.headline)
+                                                    .labelStyle(DualColorLabel(iconColor: themeDarkerColor))
+                                                Spacer()
+                                                Text("\(person.balance, specifier: "%.2f") zł")
+                                                    .font(.footnote.bold())
+                                                    .foregroundColor(getBalanceColor(balance: person.balance))
+                                            }
+                                            Group {
+                                                if hasExpenses(expenses: person.expenses) {
+                                                    ZStack {
+                                                        RoundedRectangle(cornerRadius: 20)
+                                                            .fill(Color.green.opacity(0.2))
+                                                        VStack {
+                                                            ForEach(person.expenses.sorted()) { expense in //
+                                                                HStack {
+                                                                    Label("\(expense.name)", systemImage: "chevron.up")
+                                                                    Spacer()
+                                                                    Text("\(expense.price, specifier: "%.2f") zł") //można potem dodać wybieranie waluty i guess
+                                                                }
+                                                                .padding(.vertical,2)
+                                                                .foregroundColor(Color.darkGreen)
+                                                                //.listRowSeparator(.hidden)
+                                                                //.listRowBackground(Color.green.opacity(0.2))
+                                                            }
+                                                        }
+                                                        .padding()
+                                                    }
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                } else {}
+                                            }
+                                            Group {
+                                                if hasDebts(debts: person.debts) {
+                                                    ZStack {
+                                                        RoundedRectangle(cornerRadius: 20)
+                                                            .fill(Color.red.opacity(0.2))
+                                                        VStack {
+                                                            ForEach(person.debts.sorted()) { debt in //
+                                                                HStack {
+                                                                    Label("\(debt.name)", systemImage: "chevron.down")
+                                                                    Spacer()
+                                                                    Text("\(debt.price, specifier: "%.2f") zł")
+                                                                }
+                                                                .padding(.vertical,2)
+                                                                .foregroundColor(Color.darkRed)
+                                                                //.listRowSeparator(.hidden)
+                                                                //.listRowBackground(Color.red.opacity(0.2))
+                                                            }
+                                                        }
+                                                        .padding()
+                                                    }
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                } else {}
+                                            }
+                                        }
+                                        .padding()
+                                    }
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    
+                                    
+                                }
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                Spacer(minLength: 100)
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                            }
+                            //                    } header: {
+                            //                        Text("People")
+                            //                    }
+                            
+                            .listStyle(.plain)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            
+                        }
+                        //.padding()
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    .offset(x: 0, y: bottomOffset)
+                    //}
+                    //.listStyle(.plain)
+                    //.padding([.leading,.trailing])
+                }
+                .ignoresSafeArea()
+                //.padding()
+            }
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    ZStack {
+                        Circle()
+                            .fill(themeColor)
+                        Button(action: {
+                            withAnimation {
+                                editSheetShown = true
+                            }
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.headline)
+                                .foregroundColor(.black)
+                                .padding(20)
                         }
                     }
-                } header: {
-                    Text("People")
+                    .fixedSize()
+                    .matchedGeometryEffect(id: "confirmButton", in: namespace)
                 }
-            }
-            //.listStyle(.plain)
-            //.padding([.leading,.trailing])
-        }
-        .navigationTitle(division.name)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit") {
-                    data = division.data
-                    editSheetShown = true
-                }
+                .padding(.horizontal)
+                
             }
         }
-        .sheet(isPresented: $editSheetShown) {
-            NavigationView {
-                AddExpensesView(data: $data)
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button("Cancel") {
-                                editSheetShown = false
-                            }
-                            .foregroundColor(.red)
-                        }
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Update") {
-                                division.update(from: data)
-                                division.people.sort(by: Person.nameSort)
-                                editSheetShown = false
-                            }
-                        }
-                }
+        .onAppear {
+            withAnimation {
+                topOffset = 0
+                bottomOffset = 0
             }
         }
+        .onDisappear {
+            withAnimation {
+                topOffset = -UIScreen.main.bounds.height*0.5
+                bottomOffset = UIScreen.main.bounds.height
+            }
+        }
+        //        .navigationTitle(division.name)
+        //        .toolbar {
+        //            ToolbarItem(placement: .navigationBarTrailing) {
+        //                Button("Edit") {
+        //                    data = division.data
+        //                    editSheetShown = true
+        //                }
+        //            }
+        //        }
+        //        .sheet(isPresented: $editSheetShown) {
+        //            NavigationView {
+        //                AddExpensesView(data: $data)
+        //                    .toolbar {
+        //                        ToolbarItem(placement: .cancellationAction) {
+        //                            Button("Cancel") {
+        //                                editSheetShown = false
+        //                            }
+        //                            .foregroundColor(.red)
+        //                        }
+        //                        ToolbarItem(placement: .confirmationAction) {
+        //                            Button("Update") {
+        //                                division.update(from: data)
+        //                                division.people.sort(by: Person.nameSort)
+        //                                editSheetShown = false
+        //                            }
+        //                        }
+        //                }
+        //            }
+        //        }
     }
 }
 
 struct SingleDivisionView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            SingleDivisionView(division: .constant(Division.sampleDivisions[1]))
-        }
+        SingleDivisionView(division: .constant(Division.sampleDivisions[1]), namespace: Namespace.init().wrappedValue)
     }
 }
 
@@ -122,6 +300,22 @@ extension SingleDivisionView {
             return .green
         } else {
             return .red
+        }
+    }
+    
+    func hasExpenses(expenses: [Product]) -> Bool {
+        if expenses.count > 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func hasDebts(debts: [Product]) -> Bool {
+        if debts.count > 0 {
+            return true
+        } else {
+            return false
         }
     }
 }

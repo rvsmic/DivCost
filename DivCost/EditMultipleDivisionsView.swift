@@ -15,105 +15,135 @@ struct EditMultipleDivisionsView: View {
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
     
-    @Namespace var namespace
+    //@Namespace var namespace
+    var namespace: Namespace.ID
     
     let mainColor = Color("MainColor")
     let mainDarkerColor = Color(UIColor(Color("MainColor")).darker())
     
-    init(data: Binding<MultipleDivisions.MultipleData>) {
+    init(data: Binding<MultipleDivisions.MultipleData>, namespace: Namespace.ID) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
         self._data = data
+        self.namespace = namespace
     }
     
     var body: some View {
         VStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(LinearGradient(mainColor,mainDarkerColor)) // mozna jakis obrazek cool
-                    .ignoresSafeArea()
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.15, alignment: .center)
-                    .shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
-                Text("DivCost")
-                    .padding(20)
-                    .font(.system(size: 60).weight(.heavy))
-                    .offset(x: 0, y: UIScreen.main.bounds.height*(-0.01))
-            }
-            .matchedGeometryEffect(id: "title", in: namespace)
-            .fixedSize()
             Spacer()
             ZStack {
-                RoundedRectangle(cornerRadius: 30)
-                    .fill(LinearGradient(mainColor,mainDarkerColor))
-                    .shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
-                    
-                List {
-                    Section {
-                        TextField("Division Name", text: $newDivisionName)
+                VStack {
+                    Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .fill(mainColor)
+                            .shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
                         
-                        Text("People:")
-                            .font(.headline)
-                        ForEach(newPeople) { person in
-                            Text(person.name)
-                        }
-                        .onDelete { indices in
-                            newPeople.remove(atOffsets: indices)
-                        }
-                        .padding(.leading)
-                        HStack {
-                            TextField("New Person", text: $newPerson)
-                            Spacer()
-                            Button(action: {
-                                withAnimation {
-                                    newPeople.append(Person(name: newPerson))
+                        List {
+                            Section {
+                                Text("New Division:")
+                                    .font(.footnote.bold())
+                                    .foregroundColor(.black)
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.white)
+                                    TextField("Division Name", text: $newDivisionName)
+                                        .padding()
                                 }
-                                newPerson = ""
-                            }) {
-                                Image(systemName: "plus")
+                                Text("New People:")
+                                    .font(.footnote.bold())
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.white)
+                                    HStack {
+                                        TextField("New Person", text: $newPerson)
+                                        Spacer()
+                                        Button(action: {
+                                            withAnimation {
+                                                newPeople.append(Person(name: newPerson))
+                                            }
+                                            newPerson = ""
+                                        }) {
+                                            Image(systemName: "plus")
+                                        }
+                                        .disabled(newPerson.isEmpty)
+                                    }
+                                    //.padding(.leading)
+                                    .padding()
+                                }
+                                ForEach(newPeople) { person in
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(.white)
+                                        Text(person.name)
+                                            .padding()
+                                    }
+                                }
+                                .onDelete { indices in
+                                    newPeople.remove(atOffsets: indices)
+                                }
+                                
+                                
+                                
+                                HStack {
+                                    Button(action: {
+                                        withAnimation {
+                                            data.divisions.append(Division(name: newDivisionName, people: newPeople))
+                                        }
+                                        newPerson = ""
+                                        newDivisionName = ""
+                                        withAnimation {
+                                            newPeople.removeAll()
+                                        }
+                                    }) {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .fill(Color.black.opacity(0.4))
+                                            Image(systemName: "plus")
+                                                .foregroundColor(mainDarkerColor)
+                                                .font(.headline)
+                                                .padding()
+                                        }
+                                    }
+                                    .opacity((newDivisionName.isEmpty || newPeople.isEmpty) ? 0 : 1)
+                                    .disabled(newDivisionName.isEmpty || newPeople.isEmpty)
+                                }
                             }
-                            .disabled(newPerson.isEmpty)
-                        }
-                        .padding(.leading)
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                withAnimation {
-                                    data.divisions.append(Division(name: newDivisionName, people: newPeople))
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            
+                            Section {
+                                Text("Other Divisions:")
+                                    .font(.footnote.bold())
+                                    .foregroundColor(.black)
+                                ForEach(data.divisions) { division in   //cos sie pierdoliii - whitebox widmo po dodaniu
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(.white)
+                                        Text(division.name)
+                                            .padding()
+                                    }
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
                                 }
-                                newPerson = ""
-                                newDivisionName = ""
-                                withAnimation {
-                                    newPeople.removeAll()
+                                .onDelete { indices in
+                                    data.divisions.remove(atOffsets: indices)
                                 }
-                            }) {
-                                Image(systemName: "plus")
-                                    .foregroundColor(.white)
-                                    .font(.headline.weight(.heavy))
                             }
-                            .disabled(newDivisionName.isEmpty || newPeople.isEmpty)
-                            Spacer()
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
                         }
-                        .listRowBackground((newDivisionName.isEmpty || newPeople.isEmpty) ? Color.black.opacity(0.2) : Color.accentColor)
-
-                    } header: {
-                        Text("New Division")
+                        .listStyle(.plain)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
-                    
-                    Section {
-                        ForEach(data.divisions) { division in
-                            Text(division.name)
-                        }
-                        .onDelete { indices in
-                            data.divisions.remove(atOffsets: indices)
-                        }
-                    } header: {
-                        Text("Divisions")
-                    }
+                    .padding(.horizontal)
+                    .matchedGeometryEffect(id: "mainCard", in: namespace)
                 }
-                .listStyle(.plain)
+                RoundedRectangle(cornerRadius: 30)
+                    .stroke(mainColor, lineWidth: 20)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    .padding(.horizontal)
+                    .matchedGeometryEffect(id: "mainCard", in: namespace)
             }
-            .padding(.horizontal)
-            .matchedGeometryEffect(id: "mainCard", in: namespace)
         }
     }
 }
@@ -121,7 +151,7 @@ struct EditMultipleDivisionsView: View {
 struct EditMultipleDivisionsView_Previews: PreviewProvider {
     static var previews: some View {
         
-            EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData))
+        EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData), namespace: Namespace.init().wrappedValue)
         
     }
 }
