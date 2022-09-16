@@ -40,20 +40,28 @@ struct EditMultipleDivisionsView: View {
                         
                         List {
                             Section {
-                                Text("New Division:")
+                                Text("New Division")
                                     .font(.footnote.bold())
                                     .foregroundColor(.black)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(.white)
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                        }
                                     TextField("Division Name", text: $newDivisionName)
                                         .padding()
                                 }
-                                Text("New People:")
+                                Text("New People")
                                     .font(.footnote.bold())
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(.white)
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                        }
                                     HStack {
                                         TextField("New Person", text: $newPerson)
                                         Spacer()
@@ -74,6 +82,10 @@ struct EditMultipleDivisionsView: View {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 20)
                                             .fill(.white)
+                                            .overlay {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                            }
                                         Text(person.name)
                                             .padding()
                                     }
@@ -98,8 +110,12 @@ struct EditMultipleDivisionsView: View {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .fill(Color.black.opacity(0.4))
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 20)
+                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                }
                                             Image(systemName: "plus")
-                                                .foregroundColor(mainDarkerColor)
+                                                .foregroundColor(mainColor)
                                                 .font(.headline)
                                                 .padding()
                                         }
@@ -112,13 +128,17 @@ struct EditMultipleDivisionsView: View {
                             .listRowSeparator(.hidden)
                             
                             Section {
-                                Text("Other Divisions:")
+                                Text("Other Divisions")
                                     .font(.footnote.bold())
                                     .foregroundColor(.black)
                                 ForEach(data.divisions) { division in   //cos sie pierdoliii - whitebox widmo po dodaniu
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 20)
                                             .fill(.white)
+                                            .overlay {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                            }
                                         Text(division.name)
                                             .padding()
                                     }
@@ -133,7 +153,7 @@ struct EditMultipleDivisionsView: View {
                             .listRowSeparator(.hidden)
                         }
                         .listStyle(.plain)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
                     }
                     .padding(.horizontal)
                     .matchedGeometryEffect(id: "mainCard", in: namespace)

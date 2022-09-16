@@ -17,6 +17,8 @@ struct DivisionsView: View {
     @State private var showDivisionView = false
     @State private var chosenDivisionID = UUID()
     
+    @State private var backButtonShown = true
+    
     @State private var newPeople: [Person] = []
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
@@ -40,35 +42,39 @@ struct DivisionsView: View {
             if showDivisionView {
                 ZStack {
                     
-                    SingleDivisionView(division: Division.getFromID(divisions: $divisions, ID: chosenDivisionID), namespace: namespace)
+                    SingleDivisionView(division: Division.getFromID(divisions: $divisions, ID: chosenDivisionID), namespace: namespace, backButtonShown: $backButtonShown)
                     
-                    VStack {
-                        Spacer()
-                        HStack {
-                            ZStack {
-                                Circle()
-                                    .fill(.black.opacity(0.4))
-                                    .overlay {
+                    Group {
+                        if backButtonShown {
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    ZStack {
                                         Circle()
-                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                            .fill(.black.opacity(0.4))
+                                            .overlay {
+                                                Circle()
+                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                            }
+                                        Button(action: {
+                                            withAnimation {
+                                                showDivisionView = false
+                                            }
+                                        }) {
+                                            Image(systemName: "chevron.left")
+                                                .font(.headline)
+                                                .foregroundColor(.black)
+                                                .padding(20)
+                                        }
                                     }
-                                Button(action: {
-                                    withAnimation {
-                                        showDivisionView = false
-                                    }
-                                }) {
-                                    Image(systemName: "chevron.left")
-                                        .font(.headline)
-                                        .foregroundColor(.black)
-                                        .padding(20)
+                                    .fixedSize()
+                                    .matchedGeometryEffect(id: "cancelButton", in: namespace)
+                                    Spacer()
                                 }
+                                .padding(.horizontal)
+                                
                             }
-                            .fixedSize()
-                            .matchedGeometryEffect(id: "cancelButton", in: namespace)
-                            Spacer()
-                        }
-                        .padding(.horizontal)
-                        
+                        } else {}
                     }
                 }
             }
