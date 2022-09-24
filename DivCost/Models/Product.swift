@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Identifiable, Comparable {
+struct Product: Identifiable, Comparable, Codable {
     static func < (lhs: Product, rhs: Product) -> Bool {
         if lhs.name < rhs.name {
             return true

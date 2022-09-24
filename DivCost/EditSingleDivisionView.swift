@@ -15,34 +15,29 @@ struct EditSingleDivisionView: View {
     @State private var newPerson: String = ""
     @Binding var newTheme: Theme
     
-//    let themeColor: Color
-//    let themeDarkerColor: Color
-//    let themeLighterColor: Color
-    
     var namespace: Namespace.ID
     
     init(data: Binding<Division.Data>, namespace: Namespace.ID) {
         self._data = data
-//        self.themeColor = themeColor
-//        self.themeDarkerColor = Color(UIColor(themeColor).darker().darker())
-//        self.themeLighterColor = themeColor.opacity(0.2)
         self.namespace = namespace
         self._newTheme = data.theme
     }
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 30)
                 .fill(data.theme.mainColor)
                 .overlay {
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: 30)
                         .fill(Material.thin)
                 }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                }
-            VStack (alignment: .leading){
+            List {
+                Text("Current name: \(data.name)")
+                    .font(.footnote.bold())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .foregroundColor(data.theme.textColor)
+                
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color(UIColor.systemBackground))
@@ -83,37 +78,19 @@ struct EditSingleDivisionView: View {
                 }
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 20))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
                 
                 Text("People")
                     .font(.footnote.bold())
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .foregroundColor(data.theme.textColor)
-                ForEach(data.people) { person in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(UIColor.systemBackground))
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                            }
-                        Text(person.name)
-                    }
-                }
-                .onDelete { indices in
-                    withAnimation {
-                        data.people.remove(atOffsets: indices)
-                    }
-                }
-                //.padding(.leading)
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                
                 ZStack {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: 20)
                         .fill(Color(UIColor.systemBackground))
                         .overlay {
-                            RoundedRectangle(cornerRadius: 10)
+                            RoundedRectangle(cornerRadius: 20)
                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                         }
                     HStack {
@@ -129,22 +106,42 @@ struct EditSingleDivisionView: View {
                         }
                         .disabled(newPerson.isEmpty)
                     }
-                    .padding(.horizontal)
-                    //.padding(.leading)
-                    
+                    .padding()
                 }
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
+                ForEach(data.people) { person in
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(UIColor.systemBackground))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                            }
+                        Text(person.name)
+                            .padding()
+                    }
+                }
+                .onDelete { indices in
+                    withAnimation {
+                        data.people.remove(atOffsets: indices)
+                    }
+                }
+                //.padding(.leading)
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
                 
-                Spacer(minLength: 50)
+                Spacer(minLength: 100)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             }
-            //.listStyle(.plain)
-            .padding()
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .listStyle(.plain)
+            .clipShape(RoundedRectangle(cornerRadius: 30))
+            
+            RoundedRectangle(cornerRadius: 30)
+                .stroke(data.theme.mainColor, lineWidth: 20)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
         }
-        
         .matchedGeometryEffect(id: "editDivisionDetails", in: namespace)
         
         //.matchedGeometryEffect(id: "editDivisionDetails", in: namespace)

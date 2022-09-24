@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Person: Identifiable, Comparable {
+struct Person: Identifiable, Comparable, Codable {
     static func < (lhs: Person, rhs: Person) -> Bool {
         if lhs.balance < rhs.balance {
             return false

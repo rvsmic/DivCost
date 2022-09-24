@@ -28,15 +28,15 @@ struct DivisionsView: View {
     
     @Namespace var namespace
     
-//    let mainColor = Color("MainColor")
-//    let mainDarkerColor = Color(UIColor(Color("MainColor")).darker())
-//    let mainLighterColor = Color("MainColor").opacity(0.2)
+    @Environment(\.scenePhase) private var scenePhase
+    let saveAction: ()->Void
     
     let theme: Theme = .divcost
     
-    init(divisions: Binding<[Division]>) {
+    init(divisions: Binding<[Division]>, saveAction: @escaping ()->Void) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
         self._divisions = divisions
+        self.saveAction = saveAction
     }
     
     var body: some View {
@@ -44,7 +44,7 @@ struct DivisionsView: View {
             if showDivisionView {
                 ZStack {
                     
-                    SingleDivisionView(division: Division.getFromID(divisions: $divisions, ID: chosenDivisionID), namespace: namespace, backButtonShown: $backButtonShown)
+                    SingleDivisionView(division: Division.getFromID(divisions: $divisions, ID: chosenDivisionID), namespace: namespace, backButtonShown: $backButtonShown, saveAction: saveAction)
                     
                     Group {
                         if backButtonShown {
@@ -160,60 +160,15 @@ struct DivisionsView: View {
                                             .matchedGeometryEffect(id: "confirmButton", in: namespace)
                                         }
                                     }
-                                    .padding(.horizontal)
-                                    
-                                }
+                                    .padding(.horizontal)                                }
                             }
                         }
                         else {
                             ZStack {
-                                //na tło miejsce
                                 RoundedRectangle(cornerRadius: 30)
                                     .fill(Material.thin)
                                     .ignoresSafeArea()
                                     .matchedGeometryEffect(id: "topBG", in: namespace)
-                                //                                VStack (alignment: .center){
-                                //                                    List {
-                                //                                        Section {
-                                //                                            ForEach($divisions) { $division in
-                                //                                                Button(action: {
-                                //                                                    withAnimation {
-                                //                                                        showDivisionView = true
-                                //                                                    } //!!!!!!!!!!
-                                //                                                    chosenDivisionID = division.id
-                                //                                                }) {
-                                //                                                    ZStack {
-                                //                                                        RoundedRectangle(cornerRadius: 20)
-                                //                                                            .fill(Color.white)
-                                //                                                            .shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 1)
-                                //                                                        HStack {
-                                //                                                            Text(division.name)
-                                //                                                                .font(.headline)
-                                //                                                            Spacer()
-                                //                                                            ZStack {
-                                //                                                                RoundedRectangle(cornerRadius: 20)
-                                //                                                                    .fill(Color.white)
-                                //                                                                    .overlay(RoundedRectangle(cornerRadius: 20).offset(x: -1, y: -1).stroke(.black.opacity(0.3)).blur(radius: 2).clipShape(RoundedRectangle(cornerRadius: 20)))
-                                //                                                                Label("\(division.people.count)", systemImage: "person.2.fill")
-                                //                                                                    .labelStyle(DualColorLabel(iconColor: mainDarkerColor))
-                                //                                                                    .font(.caption)
-                                //                                                                    .padding(10)
-                                //                                                            }
-                                //                                                            .fixedSize()
-                                //                                                            Image(systemName: "chevron.right")
-                                //                                                                .font(.headline)
-                                //                                                        }
-                                //                                                        .padding(20)
-                                //                                                    }
-                                //                                                }
-                                //
-                                //                                            }
-                                //                                            .listRowSeparator(.hidden)
-                                //                                        }
-                                //                                        .listRowBackground(Color.clear)
-                                //                                    }
-                                //                                    .listStyle(.plain)
-                                //                                }
                                 ScrollView {
                                     ForEach($divisions) { $division in
                                         Button(action: {
@@ -321,14 +276,14 @@ struct DivisionsView: View {
                 topOffset = -UIScreen.main.bounds.height*0.5
             }
         }
-        
-        
-        
+        .onChange(of: scenePhase) { phase in
+            if phase == .inactive { saveAction() }
+        }
     }
 }
 
 struct DivisionsView_Previews: PreviewProvider {
     static var previews: some View {
-        DivisionsView(divisions: .constant(Division.sampleDivisions))
+        DivisionsView(divisions: .constant(Division.sampleDivisions), saveAction: {})
     }
 }

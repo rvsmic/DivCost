@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Division: Identifiable {
+struct Division: Identifiable, Codable {//dodać date!
     let id: UUID
     var name: String
     var people: [Person]
@@ -109,6 +109,7 @@ extension Division {
     mutating func update(from data: Data) {
         name = data.name
         people = data.people
+        theme = data.theme
     }
     
     init(data: Data) {

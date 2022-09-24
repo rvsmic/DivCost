@@ -15,25 +15,26 @@ struct SingleDivisionView: View {
     
     @State private var editSheetShown = false
     @State private var calculationsSheetShown = false
+    @State private var editDetailsSheetShown = false
     
     @State private var bottomOffset = UIScreen.main.bounds.height
     @State private var topOffset = -UIScreen.main.bounds.height*0.5
     
     @Binding var backButtonShown: Bool
     
-//    let themeColor = Color(UIColor(Color.mint).darker().lighter())
-//    let themeDarkerColor = Color(UIColor(Color.mint).darker().darker())
-//    let themeLighterColor = Color(UIColor(Color.mint).lighter().lighter()) //Color.mint.opacity(0.2)
+    @Environment(\.scenePhase) private var scenePhase
+    let saveAction: ()->Void
     
     var namespace: Namespace.ID
     
     @Environment(\.colorScheme) var colorScheme
     
-    init(division: Binding<Division>, namespace: Namespace.ID, backButtonShown: Binding<Bool>) {
+    init(division: Binding<Division>, namespace: Namespace.ID, backButtonShown: Binding<Bool>, saveAction: @escaping ()->Void) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
         self._division = division
         self.namespace = namespace
         self._backButtonShown = backButtonShown
+        self.saveAction = saveAction
     }
     
     var body: some View {
@@ -80,7 +81,6 @@ struct SingleDivisionView: View {
                     }
                 }
             }
-            
             else {
                 VStack {
                     ZStack {
@@ -171,46 +171,91 @@ struct SingleDivisionView: View {
                                 }
                             }
                         }
-                        
+                        else if editDetailsSheetShown {
+                            ZStack {
+                                    EditSingleDivisionView(data: $data, namespace: namespace)
+                                Spacer()
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color.red.opacity(0.8))
+                                                .overlay {
+                                                    Circle()
+                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                }
+                                            Button(action: {
+                                                withAnimation {
+                                                    editDetailsSheetShown = false
+                                                }
+                                            }) {
+                                                Image(systemName: "xmark")
+                                                    .font(.headline)
+                                                    .foregroundColor(.primary)
+                                                    .padding(20)
+                                            }
+                                        }
+                                        .fixedSize()
+                                        .matchedGeometryEffect(id: "editDivisionCancel", in: namespace)
+                                        Spacer()
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color(UIColor.systemBackground).opacity(0.8))
+                                                .overlay {
+                                                    Circle()
+                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                }
+                                            Button(action: {
+                                                withAnimation {
+                                                    division.update(from: data)
+                                                    editDetailsSheetShown = false
+                                                }
+                                            }) {
+                                                Image(systemName: "checkmark")
+                                                    .font(.headline)
+                                                    .foregroundColor(.primary)
+                                                    .padding(20)
+                                            }
+                                        }
+                                        .fixedSize()
+                                        .matchedGeometryEffect(id: "editDivisionConfirm", in: namespace)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                            .onAppear {
+                                withAnimation {
+                                    backButtonShown = false
+                                }
+                            }
+                            .onDisappear {
+                                withAnimation {
+                                    backButtonShown = true
+                                }
+                            }
+                        }
                         else {
                             ZStack {
                                 VStack {
-                                    
-                                    
                                     VStack {
-                                        //                RoundedRectangle(cornerRadius: 30)
-                                        //                    .fill(themeLighterColor)
-                                        //                    .ignoresSafeArea()
-                                        //                    .shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
-                                        //List {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 30)
                                                 .fill(Material.thin)
                                                 .matchedGeometryEffect(id: "topBG", in: namespace)
-                                            //List {
-                                            //Section {
-                                            VStack(alignment: .leading){
+                                            
+                                            VStack(alignment: .leading) {
                                                 Text("Summary")
                                                     .font(.footnote.bold())
                                                     .foregroundColor(.primary)
-                                                //NavigationLink(destination: CalculationsView(calculations: division.countUp())) {
-                                                ZStack (alignment: .leading){
+                                                ZStack {
                                                     RoundedRectangle(cornerRadius: 20)
                                                         .fill(division.theme.mainColor)
                                                         .overlay {
                                                             RoundedRectangle(cornerRadius: 20)
                                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                         }
-                                                        .opacity(colorScheme == .dark ? 1 : 0)
-                                                    
-                                                    RoundedRectangle(cornerRadius: 20)
-                                                        .fill(division.theme.mainColor)
-                                                        .overlay {
-                                                            RoundedRectangle(cornerRadius: 20)
-                                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                                                        }
-                                                        .opacity(colorScheme == .dark ? 0 : 1)
-                                                    
                                                     Button (action: {
                                                         withAnimation {
                                                             calculationsSheetShown = true
@@ -218,43 +263,74 @@ struct SingleDivisionView: View {
                                                     }) {
                                                         HStack {
                                                             Label("Calculated Divisions", systemImage: "function")
-                                                            //.labelStyle(DualColorLabel(iconColor: .black))
-                                                                .font(.headline)
-                                                                
                                                             Spacer()
                                                             Image(systemName: "chevron.right")
                                                         }
                                                         .foregroundColor(division.theme.textColor)
-                                                        //.padding(10)
+                                                        .font(.headline)
+                                                        .padding(.vertical, 25)
                                                         .padding(.horizontal)
                                                     }
                                                 }
                                                 .matchedGeometryEffect(id: "calculationsBG", in: namespace)
+                                                .fixedSize(horizontal: false, vertical: true)
                                                 
-                                                //.scaledToFit()
-                                                
-                                                //}
                                                 HStack {
-                                                    Label("Total", systemImage: "banknote")
-                                                        .labelStyle(DualColorLabel(iconColor: division.theme.mainColor))
+                                                    ZStack {
+                                                        RoundedRectangle(cornerRadius: 20)
+                                                            .fill(division.theme.mainColor)
+                                                            .overlay {
+                                                                RoundedRectangle(cornerRadius: 20)
+                                                                    .fill(Material.thin)
+                                                            }
+                                                            .overlay {
+                                                                RoundedRectangle(cornerRadius: 20)
+                                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                            }
+                                                        Label("\(division.total, specifier: "%.2f") zł", systemImage: "banknote")
+                                                            .padding(.horizontal)
+                                                            .padding(.vertical,10)
+                                                    }
+                                                    .fixedSize(horizontal: false, vertical: true)
                                                     Spacer()
-                                                    Text("\(division.total, specifier: "%.2f") zł")
+                                                    Button(action: {
+                                                        withAnimation {
+                                                            data = division.data
+                                                            editDetailsSheetShown = true
+                                                        }
+                                                    }) {
+                                                        ZStack {
+                                                            RoundedRectangle(cornerRadius: 20)
+                                                                .fill(division.theme.mainColor)
+                                                                .overlay {
+                                                                    RoundedRectangle(cornerRadius: 20)
+                                                                        .fill(Material.thin)
+                                                                }
+                                                                .overlay {
+                                                                    RoundedRectangle(cornerRadius: 20)
+                                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                                }
+                                                            HStack {
+                                                                Spacer()
+                                                                Image(systemName: "gear")
+                                                                Spacer()
+                                                                Image(systemName: "chevron.right")
+                                                            }
+                                                            .padding(.horizontal)
+                                                            .padding(.vertical,10)
+                                                        }
+                                                    }
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                    .matchedGeometryEffect(id: "editDivisionDetails", in: namespace)
+                                                    .matchedGeometryEffect(id: "editDivisionCancel", in: namespace)
+                                                    .matchedGeometryEffect(id: "editDivisionConfirm", in: namespace)
                                                 }
-                                                .padding(.horizontal)
-                                                .padding(.top,5)
+                                                .foregroundColor(division.theme.textColor)
                                             }
+                                            .font(.headline)
                                             .padding()
-                                            
-                                            
-                                            
-                                            //.listRowBackground(Color.clear)
-                                            //.listRowSeparator(.hidden)
-                                            
-                                            //}
-                                            //.listStyle(.plain)
-                                            //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.2, alignment: .bottom)
                                         }
-                                        .scaledToFit()
+                                        .fixedSize(horizontal: false, vertical: true)
                                         
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 30)
@@ -345,10 +421,6 @@ struct SingleDivisionView: View {
                                                         .listRowBackground(Color.clear)
                                                         .listRowSeparator(.hidden)
                                                 }
-                                                //                    } header: {
-                                                //                        Text("People")
-                                                //                    }
-                                                
                                                 .listStyle(.plain)
                                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                                 
@@ -419,47 +491,21 @@ struct SingleDivisionView: View {
                     withAnimation {
                         topOffset = -UIScreen.main.bounds.height*0.5
                     }
-            }
+                }
+                .onChange(of: scenePhase) { phase in
+                    if phase == .inactive { saveAction() }
+                }
             }
         }
-        //        .navigationTitle(division.name)
-        //        .toolbar {
-        //            ToolbarItem(placement: .navigationBarTrailing) {
-        //                Button("Edit") {
-        //                    data = division.data
-        //                    editSheetShown = true
-        //                }
-        //            }
-        //        }
-        //        .sheet(isPresented: $editSheetShown) {
-        //            NavigationView {
-        //                AddExpensesView(data: $data)
-        //                    .toolbar {
-        //                        ToolbarItem(placement: .cancellationAction) {
-        //                            Button("Cancel") {
-        //                                editSheetShown = false
-        //                            }
-        //                            .foregroundColor(.red)
-        //                        }
-        //                        ToolbarItem(placement: .confirmationAction) {
-        //                            Button("Update") {
-        //                                division.update(from: data)
-        //                                division.people.sort(by: Person.nameSort)
-        //                                editSheetShown = false
-        //                            }
-        //                        }
-        //                }
-        //            }
-        //        }
     }
 }
 
 struct SingleDivisionView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleDivisionView(division: .constant(Division.sampleDivisions[1]), namespace: Namespace.init().wrappedValue, backButtonShown: .constant(false))
+        SingleDivisionView(division: .constant(Division.sampleDivisions[1]), namespace: Namespace.init().wrappedValue, backButtonShown: .constant(false), saveAction: {})
             .preferredColorScheme(.light)
         
-        SingleDivisionView(division: .constant(Division.sampleDivisions[1]), namespace: Namespace.init().wrappedValue, backButtonShown: .constant(false))
+        SingleDivisionView(division: .constant(Division.sampleDivisions[1]), namespace: Namespace.init().wrappedValue, backButtonShown: .constant(false), saveAction: {})
             .preferredColorScheme(.dark)
     }
 }

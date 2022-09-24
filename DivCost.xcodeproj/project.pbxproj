@@ -21,6 +21,9 @@
 		9083F56628C6B7F40082AF15 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F56528C6B7F40082AF15 /* Person.swift */; };
 		9083F56828C6B9080082AF15 /* Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F56728C6B9080082AF15 /* Division.swift */; };
 		9083F56A28C6BB490082AF15 /* SingleDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F56928C6BB490082AF15 /* SingleDivisionView.swift */; };
+		90986FC128DF9F160056B716 /* DivisionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90986FC028DF9F160056B716 /* DivisionStore.swift */; };
+		90986FC328DFA2620056B716 /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90986FC228DFA2620056B716 /* ErrorWrapper.swift */; };
+		90986FC528DFA2920056B716 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90986FC428DFA2920056B716 /* ErrorView.swift */; };
 		909C7D3328CBACD600B6A399 /* EditMultipleDivisionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C7D3228CBACD600B6A399 /* EditMultipleDivisionsView.swift */; };
 		909C7D3528CBDECC00B6A399 /* EditSingleDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */; };
 		90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */; };
@@ -45,6 +48,9 @@
 		9083F56528C6B7F40082AF15 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		9083F56728C6B9080082AF15 /* Division.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Division.swift; sourceTree = "<group>"; };
 		9083F56928C6BB490082AF15 /* SingleDivisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDivisionView.swift; sourceTree = "<group>"; };
+		90986FC028DF9F160056B716 /* DivisionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionStore.swift; sourceTree = "<group>"; };
+		90986FC228DFA2620056B716 /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
+		90986FC428DFA2920056B716 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		909C7D3228CBACD600B6A399 /* EditMultipleDivisionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMultipleDivisionsView.swift; sourceTree = "<group>"; };
 		909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSingleDivisionView.swift; sourceTree = "<group>"; };
 		90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallIconLabel.swift; sourceTree = "<group>"; };
@@ -86,6 +92,7 @@
 				90A3A28A28C79CFE00296A7C /* Style */,
 				9083F56228C6B6DC0082AF15 /* Models */,
 				9083F55428C6B5970082AF15 /* DivCostApp.swift */,
+				90986FC428DFA2920056B716 /* ErrorView.swift */,
 				9083F55628C6B5970082AF15 /* DivisionsView.swift */,
 				9083F56928C6BB490082AF15 /* SingleDivisionView.swift */,
 				909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */,
@@ -115,6 +122,8 @@
 				9083F56728C6B9080082AF15 /* Division.swift */,
 				904DD70728C759C300C0143B /* Calculations.swift */,
 				90618E7828DCE7E500716727 /* Theme.swift */,
+				90986FC028DF9F160056B716 /* DivisionStore.swift */,
+				90986FC228DFA2620056B716 /* ErrorWrapper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -201,13 +210,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90986FC128DF9F160056B716 /* DivisionStore.swift in Sources */,
 				90618E7B28DD2D4600716727 /* ThemePickerView.swift in Sources */,
 				9083F55728C6B5970082AF15 /* DivisionsView.swift in Sources */,
 				9083F55528C6B5970082AF15 /* DivCostApp.swift in Sources */,
+				90986FC528DFA2920056B716 /* ErrorView.swift in Sources */,
 				9083F56828C6B9080082AF15 /* Division.swift in Sources */,
 				9083F56A28C6BB490082AF15 /* SingleDivisionView.swift in Sources */,
 				9083F56628C6B7F40082AF15 /* Person.swift in Sources */,
 				909C7D3528CBDECC00B6A399 /* EditSingleDivisionView.swift in Sources */,
+				90986FC328DFA2620056B716 /* ErrorWrapper.swift in Sources */,
 				904DD70828C759C300C0143B /* Calculations.swift in Sources */,
 				90A8D5A128C7F48F00F5FDAF /* CheckBoxView.swift in Sources */,
 				90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */,
