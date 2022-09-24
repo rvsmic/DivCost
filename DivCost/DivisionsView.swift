@@ -28,9 +28,11 @@ struct DivisionsView: View {
     
     @Namespace var namespace
     
-    let mainColor = Color("MainColor")
-    let mainDarkerColor = Color(UIColor(Color("MainColor")).darker())
-    let mainLighterColor = Color("MainColor").opacity(0.2)
+//    let mainColor = Color("MainColor")
+//    let mainDarkerColor = Color(UIColor(Color("MainColor")).darker())
+//    let mainLighterColor = Color("MainColor").opacity(0.2)
+    
+    let theme: Theme = .divcost
     
     init(divisions: Binding<[Division]>) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
@@ -51,7 +53,7 @@ struct DivisionsView: View {
                                 HStack {
                                     ZStack {
                                         Circle()
-                                            .fill(.black.opacity(0.4))
+                                            .fill(Color(UIColor.systemBackground).opacity(0.8))
                                             .overlay {
                                                 Circle()
                                                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -63,7 +65,7 @@ struct DivisionsView: View {
                                         }) {
                                             Image(systemName: "chevron.left")
                                                 .font(.headline)
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                                 .padding(20)
                                         }
                                     }
@@ -84,7 +86,7 @@ struct DivisionsView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                         //.fill(LinearGradient(mainColor,mainDarkerColor)) // mozna jakis obrazek cool
-                            .fill(mainColor)
+                            .fill(theme.mainColor)
                             .ignoresSafeArea()
                             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.15, alignment: .center)
                             //.shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
@@ -112,7 +114,7 @@ struct DivisionsView: View {
                                     HStack {
                                         ZStack {
                                             Circle()
-                                                .fill(.red.opacity(0.5))
+                                                .fill(.red.opacity(0.8))
                                                 .overlay {
                                                     Circle()
                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -124,7 +126,7 @@ struct DivisionsView: View {
                                             }) {
                                                 Image(systemName: "xmark")
                                                     .font(.headline)
-                                                    .foregroundColor(.darkRed)
+                                                    .foregroundColor(.black)
                                                     .padding(20)
                                             }
                                         }
@@ -134,7 +136,7 @@ struct DivisionsView: View {
                                         withAnimation {
                                             ZStack {
                                                 Circle()
-                                                    .fill(.black.opacity(0.4))
+                                                    .fill(Color(UIColor.systemBackground).opacity(0.8))
                                                     .overlay {
                                                         Circle()
                                                             .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -150,7 +152,7 @@ struct DivisionsView: View {
                                                 }) {
                                                     Image(systemName: "checkmark")
                                                         .font(.headline)
-                                                        .foregroundColor(mainDarkerColor)
+                                                        .foregroundColor(.primary)
                                                         .padding(20)
                                                 }
                                             }
@@ -167,7 +169,7 @@ struct DivisionsView: View {
                             ZStack {
                                 //na tło miejsce
                                 RoundedRectangle(cornerRadius: 30)
-                                    .fill(mainLighterColor)
+                                    .fill(Material.thin)
                                     .ignoresSafeArea()
                                     .matchedGeometryEffect(id: "topBG", in: namespace)
                                 //                                VStack (alignment: .center){
@@ -222,7 +224,7 @@ struct DivisionsView: View {
                                         }) {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 20)
-                                                    .fill(Color.white)
+                                                    .fill(Color(UIColor.systemBackground))
                                                     //.shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 1)
                                                     .overlay {
                                                         RoundedRectangle(cornerRadius: 20)
@@ -231,10 +233,11 @@ struct DivisionsView: View {
                                                 HStack {
                                                     Text(division.name)
                                                         .font(.headline)
+                                                        .foregroundColor(.primary)
                                                     Spacer()
                                                     ZStack {
                                                         RoundedRectangle(cornerRadius: 20)
-                                                            .fill(mainColor)
+                                                            .fill(division.theme.mainColor)
                                                             .overlay {
                                                                 RoundedRectangle(cornerRadius: 20)
                                                                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -242,12 +245,13 @@ struct DivisionsView: View {
                                                         Label("\(division.people.count)", systemImage: "person.2")
                                                             .font(.caption)
                                                             .padding(10)
+                                                            .foregroundColor(division.theme.textColor)
                                                     }
                                                     .fixedSize()
                                                     Image(systemName: "chevron.right")
                                                         .font(.headline)
+                                                        .foregroundColor(.primary)
                                                 }
-                                                .foregroundColor(.black)
                                                 .padding(20)
                                             }
                                             .fixedSize(horizontal: false, vertical: true)
@@ -263,7 +267,7 @@ struct DivisionsView: View {
                                         Spacer()
                                         ZStack {
                                             Circle()
-                                                .fill(mainColor)
+                                                .fill(theme.mainColor)
                                                 .overlay {
                                                     Circle()
                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)

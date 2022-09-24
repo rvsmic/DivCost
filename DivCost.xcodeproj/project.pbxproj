@@ -11,6 +11,8 @@
 		901E260F28CF8629004FC8AB /* OtherMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901E260E28CF8629004FC8AB /* OtherMethods.swift */; };
 		904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70528C7596F00C0143B /* CalculationsView.swift */; };
 		904DD70828C759C300C0143B /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70728C759C300C0143B /* Calculations.swift */; };
+		90618E7928DCE7E500716727 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90618E7828DCE7E500716727 /* Theme.swift */; };
+		90618E7B28DD2D4600716727 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90618E7A28DD2D4600716727 /* ThemePickerView.swift */; };
 		9083F55528C6B5970082AF15 /* DivCostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55428C6B5970082AF15 /* DivCostApp.swift */; };
 		9083F55728C6B5970082AF15 /* DivisionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55628C6B5970082AF15 /* DivisionsView.swift */; };
 		9083F55928C6B59A0082AF15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9083F55828C6B59A0082AF15 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		901E260E28CF8629004FC8AB /* OtherMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherMethods.swift; sourceTree = "<group>"; };
 		904DD70528C7596F00C0143B /* CalculationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationsView.swift; sourceTree = "<group>"; };
 		904DD70728C759C300C0143B /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
+		90618E7828DCE7E500716727 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		90618E7A28DD2D4600716727 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		9083F55128C6B5970082AF15 /* DivCost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DivCost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9083F55428C6B5970082AF15 /* DivCostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivCostApp.swift; sourceTree = "<group>"; };
 		9083F55628C6B5970082AF15 /* DivisionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionsView.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 				9083F56928C6BB490082AF15 /* SingleDivisionView.swift */,
 				909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */,
 				90A3A28D28C7A2F300296A7C /* AddExpensesView.swift */,
+				90618E7A28DD2D4600716727 /* ThemePickerView.swift */,
 				909C7D3228CBACD600B6A399 /* EditMultipleDivisionsView.swift */,
 				904DD70528C7596F00C0143B /* CalculationsView.swift */,
 				9083F55828C6B59A0082AF15 /* Assets.xcassets */,
@@ -109,6 +114,7 @@
 				9083F56528C6B7F40082AF15 /* Person.swift */,
 				9083F56728C6B9080082AF15 /* Division.swift */,
 				904DD70728C759C300C0143B /* Calculations.swift */,
+				90618E7828DCE7E500716727 /* Theme.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -195,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90618E7B28DD2D4600716727 /* ThemePickerView.swift in Sources */,
 				9083F55728C6B5970082AF15 /* DivisionsView.swift in Sources */,
 				9083F55528C6B5970082AF15 /* DivCostApp.swift in Sources */,
 				9083F56828C6B9080082AF15 /* Division.swift in Sources */,
@@ -211,6 +218,7 @@
 				901E260F28CF8629004FC8AB /* OtherMethods.swift in Sources */,
 				909C7D3328CBACD600B6A399 /* EditMultipleDivisionsView.swift in Sources */,
 				904DD70628C7596F00C0143B /* CalculationsView.swift in Sources */,
+				90618E7928DCE7E500716727 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +353,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -374,6 +383,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

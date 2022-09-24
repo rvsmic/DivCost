@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct DivCostApp: App {
     
-    @State var divisions: [Division] = Division.sampleDivisions
+    @State private var divisions: [Division] = Division.sampleDivisions
     
     var body: some Scene {
         WindowGroup {

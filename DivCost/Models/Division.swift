@@ -12,6 +12,7 @@ struct Division: Identifiable {
     let id: UUID
     var name: String
     var people: [Person]
+    var theme: Theme
     var total: Double {
         var total: Double = 0
         for person in people {
@@ -20,10 +21,11 @@ struct Division: Identifiable {
         return total
     }
     
-    init(id: UUID = UUID(), name: String, people: [Person] = []) {
+    init(id: UUID = UUID(), name: String, people: [Person] = [], theme: Theme) {
         self.id = id
         self.name = name
         self.people = people
+        self.theme = theme
     }
     
     func countUp() -> [Calculations] {
@@ -59,13 +61,14 @@ struct Division: Identifiable {
 }
 
 extension Division {
-    static let sampleDivisions: [Division] = [Division(name: "Warszawa"), Division(name: "Starówka", people: Person.samplePeople), Division(name: "Miłocin")]
+    static let sampleDivisions: [Division] = [Division(name: "Warszawa", theme: .poppy), Division(name: "Starówka", people: Person.samplePeople, theme: .navy), Division(name: "Miłocin", theme: .salmon)]
 }
 
 extension Division {
     struct Data {
         var name: String = ""
         var people: [Person] = []
+        var theme: Theme = .ruddy
         
         
         mutating func addProduct(newName: String, newPrice: Double, buyerId: UUID, debtorsId: [UUID]) {
@@ -85,10 +88,22 @@ extension Division {
                 }
             }
         }
+        
+        mutating func removeDebts(productID: UUID) {
+            
+            for i in 0..<people.count {
+                for j in 0..<people[i].debts.count {
+                    if people[i].debts[j].id == productID {
+                        people[i].debts.remove(at: j)
+                        break
+                    }
+                }
+            }
+        }
     }
     
     var data: Data {
-        Data(name: name, people: people)
+        Data(name: name, people: people, theme: theme)
     }
     
     mutating func update(from data: Data) {
@@ -100,6 +115,7 @@ extension Division {
         id = UUID()
         name = data.name
         people = data.people
+        theme = data.theme
     }
 }
 

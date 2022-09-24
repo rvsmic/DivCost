@@ -12,14 +12,40 @@ struct CheckBoxView: View {
     let text: String
     @Binding var checked: Bool
     let color: Color
+    let textColor: Color
     
     var body: some View {
-        Label(text, systemImage: checked ? "checkmark.circle.fill" : "checkmark.circle")
-            .labelStyle(DualColorLabel(iconColor: color))
-            .animation(Animation.easeInOut, value: 0.5)
-            .onTapGesture {
-                checked.toggle()
-            }
+//        Label(text, systemImage: checked ? "checkmark.circle.fill" : "checkmark.circle")
+//            .labelStyle(DualColorLabel(iconColor: color))
+//            .animation(Animation.easeInOut, value: 0.5)
+//            .onTapGesture {
+//                checked.toggle()
+//            }
+//            .foregroundColor(textColor)
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(color)
+                .opacity(checked ? 1 : 0)
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Material.thin)
+                .opacity(checked ? 0 : 1)
+            Text(text)
+                .padding(10)
+                .padding(.horizontal)
+                .foregroundColor(textColor)
+                .opacity(checked ? 1 : 0)
+            Text(text)
+                .padding(10)
+                .padding(.horizontal)
+                .foregroundColor(.primary)
+                .opacity(checked ? 0 : 1)
+            
+        }
+        .fixedSize()
+        .animation(Animation.easeInOut, value: 0.5)
+        .onTapGesture {
+            checked.toggle()
+        }
     }
 }
 
@@ -32,7 +58,7 @@ struct CheckBoxView: View {
 struct test: View {
     @State private var checked: Bool = false
     var body: some View {
-        CheckBoxView(text: "Dude", checked: $checked, color: .yellow)
+        CheckBoxView(text: "Dude", checked: $checked, color: .yellow, textColor: .white)
     }
 }
 

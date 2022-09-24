@@ -14,12 +14,11 @@ struct EditMultipleDivisionsView: View {
     @State private var newPeople: [Person] = []
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
+    @State private var newTheme: Theme = .poppy
     
-    //@Namespace var namespace
     var namespace: Namespace.ID
     
-    let mainColor = Color("MainColor")
-    let mainDarkerColor = Color(UIColor(Color("MainColor")).darker())
+    let theme: Theme = .divcost
     
     init(data: Binding<MultipleDivisions.MultipleData>, namespace: Namespace.ID) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
@@ -27,7 +26,7 @@ struct EditMultipleDivisionsView: View {
         self.namespace = namespace
     }
     
-    var body: some View {
+    var body: some View {       //dodac wybor motywu
         VStack {
             Spacer()
             ZStack {
@@ -35,17 +34,16 @@ struct EditMultipleDivisionsView: View {
                     Spacer()
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
-                            .fill(mainColor)
-                            //.shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
+                            .fill(theme.mainColor)
                         
                         List {
                             Section {
                                 Text("New Division")
                                     .font(.footnote.bold())
-                                    .foregroundColor(.black)
+                                    .foregroundColor(theme.textColor)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.white)
+                                        .fill(Color(UIColor.systemBackground))
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -53,11 +51,27 @@ struct EditMultipleDivisionsView: View {
                                     TextField("Division Name", text: $newDivisionName)
                                         .padding()
                                 }
-                                Text("New People")
+                                Text("New Theme")
                                     .font(.footnote.bold())
+                                    .foregroundColor(theme.textColor)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.white)
+                                        .fill(Color(UIColor.systemBackground))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                        }
+                                    ThemePickerView(selection: $newTheme)
+                                }
+                                .clipped()
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                
+                                Text("New People")
+                                    .font(.footnote.bold())
+                                    .foregroundColor(theme.textColor)
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color(UIColor.systemBackground))
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -81,7 +95,7 @@ struct EditMultipleDivisionsView: View {
                                 ForEach(newPeople) { person in
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 20)
-                                            .fill(.white)
+                                            .fill(Color(UIColor.systemBackground))
                                             .overlay {
                                                 RoundedRectangle(cornerRadius: 20)
                                                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -90,16 +104,16 @@ struct EditMultipleDivisionsView: View {
                                             .padding()
                                     }
                                 }
-                                .onDelete { indices in
-                                    newPeople.remove(atOffsets: indices)
-                                }
+//                                .onDelete { indices in
+//                                    newPeople.remove(atOffsets: indices)
+//                                }
                                 
                                 
                                 
                                 HStack {
                                     Button(action: {
                                         withAnimation {
-                                            data.divisions.append(Division(name: newDivisionName, people: newPeople))
+                                            data.divisions.append(Division(name: newDivisionName, people: newPeople, theme: newTheme))
                                         }
                                         newPerson = ""
                                         newDivisionName = ""
@@ -109,13 +123,13 @@ struct EditMultipleDivisionsView: View {
                                     }) {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 20)
-                                                .fill(Color.black.opacity(0.4))
+                                                .fill(Material.thin)
                                                 .overlay {
                                                     RoundedRectangle(cornerRadius: 20)
                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                 }
                                             Image(systemName: "plus")
-                                                .foregroundColor(mainColor)
+                                                .foregroundColor(theme.textColor)
                                                 .font(.headline)
                                                 .padding()
                                         }
@@ -130,27 +144,31 @@ struct EditMultipleDivisionsView: View {
                             Section {
                                 Text("Other Divisions")
                                     .font(.footnote.bold())
-                                    .foregroundColor(.black)
+                                    .foregroundColor(theme.textColor)
                                 ForEach(data.divisions) { division in   //cos sie pierdoliii - whitebox widmo po dodaniu
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .fill(.white)
-                                            .overlay {
-                                                RoundedRectangle(cornerRadius: 20)
-                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                                            }
-                                        Text(division.name)
-                                            .padding()
+                                    Section {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .fill(Color(UIColor.systemBackground))
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 20)
+                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                }
+                                            Text(division.name)
+                                                .padding()
+                                        }
                                     }
-                                    .listRowBackground(Color.clear)
-                                    .listRowSeparator(.hidden)
+                                    
                                 }
-                                .onDelete { indices in
-                                    data.divisions.remove(atOffsets: indices)
-                                }
+//                                .onDelete { indices in
+//                                    data.divisions.remove(atOffsets: indices)
+//                                }
                             }
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
+                            Spacer(minLength: 100)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
                         }
                         .listStyle(.plain)
                         .clipShape(RoundedRectangle(cornerRadius: 30))
@@ -159,7 +177,7 @@ struct EditMultipleDivisionsView: View {
                     .matchedGeometryEffect(id: "mainCard", in: namespace)
                 }
                 RoundedRectangle(cornerRadius: 30)
-                    .stroke(mainColor, lineWidth: 20)
+                    .stroke(theme.mainColor, lineWidth: 20)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .padding(.horizontal)
                     .matchedGeometryEffect(id: "mainCard", in: namespace)
@@ -172,6 +190,9 @@ struct EditMultipleDivisionsView_Previews: PreviewProvider {
     static var previews: some View {
         
         EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData), namespace: Namespace.init().wrappedValue)
+            .preferredColorScheme(.light)
         
+        EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData), namespace: Namespace.init().wrappedValue)
+            .preferredColorScheme(.dark)
     }
 }

@@ -19,18 +19,12 @@ struct AddExpensesView: View {
     @State private var newBuyer: String = ""
     
     @State private var showNumberError: Bool = false
-    
-    let themeColor: Color
-    let themeDarkerColor: Color
-    let themeLighterColor: Color
+    @State private var editDetailsShown: Bool = false
     
     var namespace: Namespace.ID
     
-    init(data: Binding<Division.Data>, themeColor: Color, namespace: Namespace.ID) {
+    init(data: Binding<Division.Data>, namespace: Namespace.ID) {
         self._data = data
-        self.themeColor = themeColor
-        self.themeDarkerColor = Color(UIColor(themeColor).darker().darker())
-        self.themeLighterColor = themeColor.opacity(0.2)
         self.namespace = namespace
     }
     
@@ -42,42 +36,89 @@ struct AddExpensesView: View {
                     Spacer()
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
-                            .fill(themeColor)
+                            .fill(data.theme.mainColor)
                         
                         List {
                             Section {
                                 Text("General")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(data.theme.textColor)
                                     .font(.footnote.bold())
-                                Button(action: {}) {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .fill(themeDarkerColor)
-                                            .overlay {
-                                                RoundedRectangle(cornerRadius: 20)
-                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                Group {
+                                    if editDetailsShown {
+                                        ZStack {
+                                            VStack {
+                                                EditSingleDivisionView(data: $data, namespace: namespace)
                                             }
-                                        HStack {
-                                            Text("Edit Division Details")
                                             Spacer()
-                                            Image(systemName: "chevron.right")
-                                        }//NavigationLink(destination: EditSingleDivisionView(data: $data)) {
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                        .padding()
+                                            VStack {
+                                                Spacer()
+                                                HStack {
+                                                    //Spacer()
+                                                    ZStack {
+                                                        RoundedRectangle(cornerRadius: 20)
+                                                            .fill(Color(UIColor.systemBackground).opacity(0.8))
+                                                            .overlay {
+                                                                RoundedRectangle(cornerRadius: 20)
+                                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                            }
+                                                        Button(action: {
+                                                            withAnimation {
+                                                                editDetailsShown = false
+                                                            }
+                                                        }) {
+                                                            Image(systemName: "chevron.up")
+                                                                .font(.headline)
+                                                                .foregroundColor(.primary)
+                                                                .padding(10)
+                                                        }
+                                                    }
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                }
+                                                //.padding(.horizontal)
+                                            }
+                                        }
+                                        .scaledToFit()
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                        //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.3, alignment: .center)
+                                    }
+                                    else {
+                                        Button(action: {
+                                            withAnimation {
+                                                editDetailsShown = true
+                                            }
+                                        }) {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .fill(Material.thin)
+                                                    .overlay {
+                                                        RoundedRectangle(cornerRadius: 20)
+                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                    }
+                                                HStack {
+                                                    Text("Edit Division Details")
+                                                    Spacer()
+                                                    Image(systemName: "chevron.right")
+                                                }//NavigationLink(destination: EditSingleDivisionView(data: $data)) {
+                                                .font(.headline)
+                                                .foregroundColor(data.theme.textColor)
+                                                .padding()
+                                            }
+                                        }
+                                        .matchedGeometryEffect(id: "editDivisionDetails", in: namespace)
                                     }
                                 }
                             }
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                             
+                            
                             Section {
                                 Text("New Product")
                                     .font(.footnote.bold())
-                                    .foregroundColor(.black)
+                                    .foregroundColor(data.theme.textColor)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.white)
+                                        .fill(Color(UIColor.systemBackground))
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -87,7 +128,7 @@ struct AddExpensesView: View {
                                 }
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.white)
+                                        .fill(Color(UIColor.systemBackground))
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -102,7 +143,7 @@ struct AddExpensesView: View {
                                 } //sprawdzic
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.white)
+                                        .fill(Color(UIColor.systemBackground))
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -111,21 +152,31 @@ struct AddExpensesView: View {
                                         Text("Who Paid:")
                                             .font(.headline)
                                         Spacer()
-                                        Picker("Who Paid:", selection: $newBuyer) {
-                                            ForEach(data.people.sorted(by: Person.nameSort)) { person in
-                                                Text(person.name)
-                                                    .tag(person.name)
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .fill(data.theme.mainColor)
+                                                .overlay {
+                                                    RoundedRectangle(cornerRadius: 20)
+                                                        .fill(Material.thin)
+                                                }
+                                            Picker("Who Paid:", selection: $newBuyer) {
+                                                ForEach(data.people.sorted(by: Person.nameSort)) { person in
+                                                    Text(person.name)
+                                                        .tag(person.name)
+                                                }
                                             }
+                                            .pickerStyle(.menu)
+                                            .padding(.horizontal)
+                                            .accentColor(data.theme.textColor)
                                         }
-                                        .pickerStyle(.menu)
-                                        .accentColor(themeDarkerColor)
+                                        .fixedSize()
                                     }
                                     .padding()
                                 }
                                 
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.white)
+                                        .fill(Color(UIColor.systemBackground))
                                         .overlay {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -134,12 +185,14 @@ struct AddExpensesView: View {
                                         Text("For Whom:")
                                             .font(.headline)
                                         Spacer()
-                                        VStack (alignment: .leading) {
+                                        
+                                        VStack (alignment: .trailing) {
                                             ForEach($data.people) { $person in
-                                                CheckBoxView(text: person.name, checked: $person.checked, color: themeDarkerColor)
+                                                CheckBoxView(text: person.name, checked: $person.checked, color: data.theme.mainColor, textColor: data.theme.textColor)
                                                     .padding(1)
                                             }
                                         }
+                                        
                                     }
                                     .padding()
                                 }
@@ -163,7 +216,9 @@ struct AddExpensesView: View {
                                                 data.addProduct(newName: newName, newPrice: doubleNewPrice, buyerId: buyerId, debtorsId: debtorsId)
                                             }
                                         } else {
-                                            showNumberError = true
+                                            withAnimation {
+                                                showNumberError = true
+                                            }
                                         }
                                         newName = ""
                                         newPrice = ""
@@ -175,13 +230,13 @@ struct AddExpensesView: View {
                                     }) {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 20)
-                                                .fill(Color.black.opacity(0.4))
+                                                .fill(Material.thin)
                                                 .overlay {
                                                     RoundedRectangle(cornerRadius: 20)
                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                 }
                                             Image(systemName: "plus")
-                                                .foregroundColor(themeColor)
+                                                .foregroundColor(.primary)
                                                 .font(.headline)
                                                 .padding()
                                         }
@@ -197,29 +252,26 @@ struct AddExpensesView: View {
                             Section {
                                 Text("Expenses")
                                     .font(.footnote.bold())
-                                    .foregroundColor(.black)
-                                ForEach($data.people) { $person in //.sorted()
+                                    .foregroundColor(data.theme.textColor)
+                                ForEach(data.people.sorted()) { person in //.sorted()
                                     Section {
                                         ZStack (alignment: .leading){
                                             RoundedRectangle(cornerRadius: 20)
-                                                .fill(.white)
+                                                .fill(Color(UIColor.systemBackground))
                                                 .overlay {
                                                     RoundedRectangle(cornerRadius: 20)
                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                 }
                                             Label(person.name, systemImage: "person")
+                                                .labelStyle(DualColorLabel(iconColor: data.theme.mainColor))
                                                 .font(.headline)
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                                 .padding()
                                         }
                                         ForEach(person.expenses.sorted()) { expense in
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 10)
-                                                    .fill(.white)
-                                                    .overlay {
-                                                        RoundedRectangle(cornerRadius: 10)
-                                                            .fill(themeLighterColor)
-                                                    }
+                                                    .fill(Material.thin)
                                                     .overlay {
                                                         RoundedRectangle(cornerRadius: 10)
                                                             .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
@@ -231,12 +283,17 @@ struct AddExpensesView: View {
                                                 }
                                                 .padding(.horizontal)
                                                 .padding(5)
+                                                .foregroundColor(data.theme.textColor)
                                             }
                                             .padding(.leading)
                                         }
-                                        //                            .onDelete { indices in
-                                        //                                person.expenses.remove(atOffsets: indices)  //trzeba skasować również innym + to nie dziala o dziwos
-                                        //                            }
+                                        //                                        .onDelete { offsets in
+                                        //                                            //person.expenses.remove(atOffsets: indices)  //trzeba skasować również innym + to nie dziala o dziwos
+                                        ////                                            indices.sorted(by: >).forEach { (i) in
+                                        ////                                                person.expenses.remove(at: i)
+                                        ////                                            }
+                                        //                                            //kurwa nw
+                                        //                                        }
                                     }
                                 }
                             }
@@ -255,9 +312,8 @@ struct AddExpensesView: View {
                 }
                 .padding(.horizontal)
                 RoundedRectangle(cornerRadius: 30)
-                    .stroke(themeColor, lineWidth: 20)
+                    .stroke(data.theme.mainColor, lineWidth: 20)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
-                    //.padding(.horizontal)
                     .matchedGeometryEffect(id: "editProductCard", in: namespace)
                 
                 Group {
@@ -265,7 +321,7 @@ struct AddExpensesView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 30)
                                 .fill(Material.ultraThin)
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*2, alignment: .center)
                                 .ignoresSafeArea()
                             ZStack {
                                 RoundedRectangle(cornerRadius: 30)
@@ -280,13 +336,19 @@ struct AddExpensesView: View {
                                         .foregroundColor(Color.red)
                                         .font(.headline)
                                     Spacer()
-                                    Button (action: {
-                                        showNumberError = false
-                                    }) {
-                                        Label("Try Again", systemImage: "chevron.right")
-                                            .font(.caption)
-                                            .foregroundColor(.black)
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(Color.red)
+                                        Button (action: {
+                                            showNumberError = false
+                                        }) {
+                                            Label("Try Again", systemImage: "chevron.right")
+                                                .font(.caption.bold())
+                                                .foregroundColor(.primary)
+                                        }
+                                        .padding()
                                     }
+                                    .fixedSize()
                                     Spacer()
                                 }
                             }
@@ -307,148 +369,16 @@ struct AddExpensesView: View {
                 data.people[i].checkReset()
             }
         }
-        //Form {
-        //            List {
-        //                Section {
-        //                    NavigationLink(destination: EditSingleDivisionView(data: $data)) {
-        //                        Text("Edit division details")
-        //                    }
-        //                } header: {
-        //                    Text("General")
-        //                }
-        //
-        //                Section {
-        //                    TextField("Product Name", text: $newName)
-        //                    HStack {
-        //                        TextField("Product Price", text: $newPrice)
-        //                            .keyboardType(.numberPad)
-        //                        Spacer()
-        //                        Text("zł")
-        //                    } //sprawdzic
-        //                    HStack {
-        //                        Text("Who Paid:")
-        //                            .font(.headline)
-        //                        Spacer()
-        //                        Picker("Who Paid:", selection: $newBuyer) {
-        //                            ForEach(data.people.sorted(by: Person.nameSort)) { person in
-        //                                Text(person.name)
-        //                                    .tag(person.name)
-        //                            }
-        //                        }
-        //                        .pickerStyle(.menu)
-        //                    }
-        //
-        //                    HStack (alignment: .top) {
-        //                        Text("For Whom:")
-        //                            .font(.headline)
-        //                        Spacer()
-        //                        VStack (alignment: .leading) {
-        //                            ForEach($data.people) { $person in
-        //                                CheckBoxView(text: person.name, checked: $person.checked)
-        //                                    .padding(1)
-        //                            }
-        //                        }
-        //                    }
-        //
-        //                    HStack {
-        //                        Spacer()
-        //                        Button(action: {
-        //                            var debtorsId: [UUID] = []
-        //                            var buyerId: UUID = UUID()
-        //
-        //                            for person in data.people {
-        //                                if person.checked {
-        //                                    debtorsId.append(person.id)
-        //                                }
-        //                                if person.name == newBuyer {
-        //                                    buyerId = person.id
-        //                                }
-        //                            }
-        //
-        //                            if let doubleNewPrice = newPrice.toDouble() {
-        //                                withAnimation {
-        //                                    data.addProduct(newName: newName, newPrice: doubleNewPrice, buyerId: buyerId, debtorsId: debtorsId)
-        //                                }
-        //                            } else {
-        //                                showNumberError = true
-        //                            }
-        //                            newName = ""
-        //                            newPrice = ""
-        //                            newBuyer = data.people.sorted(by: Person.nameSort)[0].name
-        //                            for i in 0..<data.people.count {
-        //                                data.people[i].checkReset()
-        //                            }
-        //
-        //                        }) {
-        //                            Image(systemName: "plus")
-        //                                .foregroundColor(.white)
-        //                                .font(.headline.weight(.heavy))
-        //                        }
-        //                        .disabled(newName.isEmpty || newPrice.isEmpty)
-        //                        Spacer()
-        //                    }
-        //                    .listRowBackground((newName.isEmpty || newPrice.isEmpty) ? Color.black.opacity(0.2) : Color.accentColor)
-        //                } header: {
-        //                    Text("New Product")
-        //                }
-        //
-        //                Section {
-        //                    ForEach($data.people) { $person in //.sorted()
-        //                        Section {
-        //                            ForEach(person.expenses.sorted()) { expense in
-        //                                HStack {
-        //                                    Text(expense.name)
-        //                                    Spacer()
-        //                                    Text("\(expense.price, specifier: "%.2f") zł")
-        //                                }
-        //                                .padding(.leading)
-        //                            }
-        ////                            .onDelete { indices in
-        ////                                person.expenses.remove(atOffsets: indices)  //trzeba skasować również innym + to nie dziala o dziwos
-        ////                            }
-        //                        } header: {
-        //                            Text(person.name)
-        //                                .font(.headline)
-        //                        }
-        //                    }
-        //                } header: {
-        //                    Text("Expenses")
-        //                }
-        //            }
-        //            .onAppear {
-        //                if !data.people.isEmpty {
-        //                    newBuyer = data.people.sorted(by: Person.nameSort)[0].name
-        //                }
-        //                newDivisionName = data.name
-        //                for i in 0..<data.people.count {
-        //                    data.people[i].checkReset()
-        //                }
-        //            }
-        //            .sheet(isPresented: $showNumberError) { //moze zmienic na popup tylko
-        //                NavigationView {
-        //                    VStack {
-        //                        Text("Number error in added product!")
-        //                            .foregroundColor(Color.red)
-        //                            .font(.headline)
-        //                        Text("Try again.")
-        //                            .font(.caption)
-        //                    }
-        //                    .toolbar {
-        //                        ToolbarItem(placement: .confirmationAction) {
-        //                            Button("Dismiss") {
-        //                                showNumberError = false
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //}
     }
 }
 
 struct AddExpensesView_Previews: PreviewProvider {
     static var previews: some View {
-        AddExpensesView(data: .constant(Division.sampleDivisions[1].data), themeColor: .mint, namespace: Namespace.init().wrappedValue)
+        AddExpensesView(data: .constant(Division.sampleDivisions[1].data), namespace: Namespace.init().wrappedValue)
+            .preferredColorScheme(.light)
+        
+        AddExpensesView(data: .constant(Division.sampleDivisions[1].data), namespace: Namespace.init().wrappedValue)
+            .preferredColorScheme(.dark)
     }
 }
 
