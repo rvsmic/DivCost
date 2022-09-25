@@ -123,9 +123,39 @@ extension Division {
                     for j in 0..<people[i].expenses.count {
                         removeProduct(productName: people[i].expenses[j].name)
                     }
+                    let oldDebts = people[i].debts
                     people.remove(at: i)
+                    recalculateDebts(oldDebts: oldDebts)
                     break
                 }
+            }
+        }
+        
+        mutating func recalculateDebts(oldDebts: [Product]) {
+            for i in 0..<oldDebts.count {
+                var buyerID = UUID()
+                var debtorsID: [UUID] = []
+                let productName = oldDebts[i].name
+                var productPrice = 0.0
+                for j in 0..<people.count {
+                    for k in 0..<people[j].debts.count {
+                        if people[j].debts[k].name == productName {
+                            debtorsID.append(people[j].id)
+                            break
+                        }
+                    }
+                }
+                for j in 0..<people.count {
+                    for k in 0..<people[j].expenses.count {
+                        if people[j].expenses[k].name == productName {
+                            buyerID = people[j].id
+                            productPrice = people[j].expenses[k].price
+                            removeProduct(productName: productName)
+                            break
+                        }
+                    }
+                }
+                addProduct(newName: productName, newPrice: productPrice, buyerId: buyerID, debtorsId: debtorsID)
             }
         }
     }
