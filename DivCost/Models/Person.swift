@@ -55,8 +55,14 @@ struct Person: Identifiable, Comparable, Codable {
         self.checked = checked
     }
     
-    mutating func checkReset() {
-        self.checked = false
+    static func removePerson(people: [Person], personID: UUID) -> [Person]{
+        var newPeople: [Person] = []
+        for i in 0..<people.count {
+            if people[i].id != personID {
+                newPeople.append(people[i])
+            }
+        }
+        return newPeople
     }
 }
 

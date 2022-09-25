@@ -11,9 +11,6 @@ struct AddExpensesView: View {
     
     @Binding var data: Division.Data
     
-    @State private var newDivisionName: String = ""
-    @State private var newPerson: String = ""
-    
     @State private var newName: String = ""
     @State private var newPrice: String = ""
     @State private var newBuyer: String = ""
@@ -95,6 +92,7 @@ struct AddExpensesView: View {
                                                                 .tag(person.name)
                                                         }
                                                     }
+                                                    .labelsHidden()
                                                     .pickerStyle(.menu)
                                                     .padding(.horizontal)
                                                     .accentColor(data.theme.textColor)
@@ -112,17 +110,20 @@ struct AddExpensesView: View {
                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                 }
                                             HStack (alignment: .top) {
+                                            //VStack (alignment: .leading){
                                                 Text("For Whom:")
                                                     .font(.headline)
                                                 Spacer()
                                                 
                                                 VStack (alignment: .trailing) {
-                                                    ForEach($data.people) { $person in
-                                                        CheckBoxView(text: person.name, checked: $person.checked, color: data.theme.mainColor, textColor: data.theme.textColor)
-                                                            .padding(1)
-                                                    }
+                                                //ScrollView (.horizontal){
+                                                    //HStack {
+                                                        ForEach($data.people) { $person in
+                                                            CheckBoxView(text: person.name, checked: $person.checked, color: data.theme.mainColor, textColor: data.theme.textColor)
+                                                                .padding(1)
+                                                        }
+                                                    //}
                                                 }
-                                                
                                             }
                                             .padding()
                                         }
@@ -144,6 +145,7 @@ struct AddExpensesView: View {
                                                 if let doubleNewPrice = newPrice.toDouble() {
                                                     withAnimation {
                                                         data.addProduct(newName: newName, newPrice: doubleNewPrice, buyerId: buyerId, debtorsId: debtorsId)
+                                                        //data.checkReset()
                                                     }
                                                 } else {
                                                     withAnimation {
@@ -153,9 +155,6 @@ struct AddExpensesView: View {
                                                 newName = ""
                                                 newPrice = ""
                                                 newBuyer = data.people.sorted(by: Person.nameSort)[0].name
-                                                for i in 0..<data.people.count {
-                                                    data.people[i].checkReset()
-                                                }
                                                 
                                             }) {
                                                 ZStack {
@@ -216,14 +215,32 @@ struct AddExpensesView: View {
                                                         .foregroundColor(data.theme.textColor)
                                                     }
                                                     .padding(.leading)
+                                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                                        Button {
+                                                            newName = expense.name
+                                                            newPrice = String(expense.price)
+                                                            newBuyer = person.name
+                                                            //ustawic checked jak naprawie
+                                                            withAnimation {
+                                                                data.removeProduct(productName: expense.name)
+                                                            }
+                                                        } label: {
+                                                            Label("Edit", systemImage: "pencil")
+                                                                .font(.headline)
+                                                        }
+                                                        .tint(Color.orange) //idk
+                                                    }
+                                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                                        Button(role: .destructive) {
+                                                            withAnimation {
+                                                                data.removeProduct(productName: expense.name)
+                                                            }
+                                                        } label: {
+                                                            Label("Delete", systemImage: "trash.fill")
+                                                        }
+                                                        .tint(.red)
+                                                    }
                                                 }
-                                                //                                        .onDelete { offsets in
-                                                //                                            //person.expenses.remove(atOffsets: indices)  //trzeba skasować również innym + to nie dziala o dziwos
-                                                ////                                            indices.sorted(by: >).forEach { (i) in
-                                                ////                                                person.expenses.remove(at: i)
-                                                ////                                            }
-                                                //                                            //kurwa nw
-                                                //                                        }
                                             }
                                         }
                                     }
@@ -235,6 +252,8 @@ struct AddExpensesView: View {
                                         .listRowSeparator(.hidden)
                                 }
                                 .listStyle(.plain)
+                                .modifier(ListBackgroundModifier())
+                                .background(Color.clear)
                                 .clipShape(RoundedRectangle(cornerRadius: 30))
                                 
                             }
@@ -297,10 +316,10 @@ struct AddExpensesView: View {
             if !data.people.isEmpty {
                 newBuyer = data.people.sorted(by: Person.nameSort)[0].name
             }
-            newDivisionName = data.name
-            for i in 0..<data.people.count {
-                data.people[i].checkReset()
-            }
+//            for i in 0..<data.people.count {
+//                data.people[i].checked = false
+//            }
+            data.checkReset()
         }
     }
 }

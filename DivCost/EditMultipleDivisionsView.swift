@@ -103,6 +103,17 @@ struct EditMultipleDivisionsView: View {
                                         Text(person.name)
                                             .padding()
                                     }
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                newPeople = Person.removePerson(people: newPeople, personID: person.id)
+                                                //idk czy sie nie zjebie
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash.fill")
+                                        }
+                                        .tint(.red)
+                                    }
                                 }
 //                                .onDelete { indices in
 //                                    newPeople.remove(atOffsets: indices)
@@ -158,11 +169,18 @@ struct EditMultipleDivisionsView: View {
                                                 .padding()
                                         }
                                     }
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                data.removeDivision(divisionID: division.id)
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash.fill")
+                                        }
+                                        .tint(.red)
+                                    }
                                     
                                 }
-//                                .onDelete { indices in
-//                                    data.divisions.remove(atOffsets: indices)
-//                                }
                             }
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
@@ -171,6 +189,7 @@ struct EditMultipleDivisionsView: View {
                                 .listRowSeparator(.hidden)
                         }
                         .listStyle(.plain)
+                        .modifier(ListBackgroundModifier())
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                     }
                     .padding(.horizontal)

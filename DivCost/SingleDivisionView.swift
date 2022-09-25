@@ -174,7 +174,7 @@ struct SingleDivisionView: View {
                         else if editDetailsSheetShown {
                             ZStack {
                                     EditSingleDivisionView(data: $data, namespace: namespace)
-                                Spacer()
+                                
                                 VStack {
                                     Spacer()
                                     HStack {
@@ -422,6 +422,7 @@ struct SingleDivisionView: View {
                                                         .listRowSeparator(.hidden)
                                                 }
                                                 .listStyle(.plain)
+                                                .modifier(ListBackgroundModifier())
                                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                                 
                                             }

@@ -89,14 +89,42 @@ extension Division {
             }
         }
         
-        mutating func removeDebts(productID: UUID) {
+        mutating func checkReset() {    //wtf
+            for i in 0..<people.count {
+                if people[i].checked {
+                    people[i].checked = false
+                }
+            }
+        }
+        
+        mutating func removeProduct(productName: String) {
+            for i in 0..<people.count {
+                for j in 0..<people[i].expenses.count {
+                    if people[i].expenses[j].name == productName {
+                        people[i].expenses.remove(at: j)
+                        break
+                    }
+                }
+            }
             
             for i in 0..<people.count {
                 for j in 0..<people[i].debts.count {
-                    if people[i].debts[j].id == productID {
+                    if people[i].debts[j].name == productName {
                         people[i].debts.remove(at: j)
                         break
                     }
+                }
+            }
+        }
+        
+        mutating func removePerson(personID: UUID) {
+            for i in 0..<people.count {
+                if (people[i].id == personID) {
+                    for j in 0..<people[i].expenses.count {
+                        removeProduct(productName: people[i].expenses[j].name)
+                    }
+                    people.remove(at: i)
+                    break
                 }
             }
         }
@@ -140,6 +168,15 @@ struct MultipleDivisions {
 extension MultipleDivisions {
     struct MultipleData {
         var divisions: [Division] = []
+        
+        mutating func removeDivision(divisionID: UUID) {
+            for i in 0..<divisions.count {
+                if divisions[i].id == divisionID {
+                    divisions.remove(at: i)
+                    break
+                }
+            }
+        }
     }
     
     var multipleData: MultipleData {
