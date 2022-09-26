@@ -8,13 +8,22 @@
 import SwiftUI
 
 enum Theme: String, Identifiable, CaseIterable, Codable {
+    case golden_gate
     case poppy
     case salmon
-    
+    case chestnut
+    case desert
+    case peach
+    case lemon
+    case div_cost
+    case pear
+    case emerald
+    case army
+    case duck
     case ruddy
     case navy
-    
-    case divcost
+    case mauve
+    case royal
     
     var mainColor: Color {
         Color(name)
@@ -22,15 +31,15 @@ enum Theme: String, Identifiable, CaseIterable, Codable {
     
     var textColor: Color {
         switch self {
-        case .poppy, .navy:
+        case .golden_gate, .poppy, .chestnut, .emerald, .army, .duck, .navy, .royal:
             return Color.white
-        case .salmon, .ruddy, .divcost:
+        case .salmon, .desert, .peach, .lemon, .div_cost, .pear, .ruddy, .mauve :
             return Color.black
         }
     }
     
     var name: String {
-        rawValue.capitalized
+        rawValue.replacingOccurrences(of: "_", with: " ").capitalized
     }
     
     var id: String {

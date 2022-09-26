@@ -19,7 +19,7 @@ struct EditMultipleDivisionsView: View {
     
     var namespace: Namespace.ID
     
-    let theme: Theme = .divcost
+    let theme: Theme = .div_cost
     
     init(data: Binding<MultipleDivisions.MultipleData>, namespace: Namespace.ID) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
@@ -80,8 +80,14 @@ struct EditMultipleDivisionsView: View {
                                         }
                                     DatePickerView(date: $newDate, color: theme.mainColor)
                                         .padding()
+//                                    DatePicker("Date", selection: $newDate, displayedComponents: [.date])
+//                                        .labelsHidden()
+//                                        .accentColor(theme.mainColor)
+//                                        .foregroundColor(.red)
+//                                        .datePickerStyle(.graphical)
                                 }
-                                .clipped()
+                                //.scaledToFill()
+                                //.clipped()
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)

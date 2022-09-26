@@ -24,7 +24,6 @@ struct ThemePickerView: View {
             }
             .pickerStyle(.wheel)
         }
-        .fixedSize()
         .frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
     }
 }

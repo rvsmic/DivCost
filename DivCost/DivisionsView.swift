@@ -31,7 +31,7 @@ struct DivisionsView: View {
     @Environment(\.scenePhase) private var scenePhase
     let saveAction: ()->Void
     
-    let theme: Theme = .divcost
+    let theme: Theme = .div_cost
     
     init(divisions: Binding<[Division]>, saveAction: @escaping ()->Void) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
@@ -270,7 +270,7 @@ struct DivisionsView: View {
                                     withAnimation {
                                         bottomOffset = UIScreen.main.bounds.height
                                     }
-                            }
+                                }
                             }
                         }
                     }
