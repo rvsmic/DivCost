@@ -33,7 +33,7 @@ struct CalculationsView: View {
                     Spacer()
                     Text("Calculated Divisions:")
                         .font(.title.bold())
-                        .foregroundColor(.primary)
+                        .foregroundColor(theme.textColor)
                     ScrollView {
                         ForEach(calculations) { calculation in
                             ZStack {

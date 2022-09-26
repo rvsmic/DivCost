@@ -14,6 +14,7 @@ struct EditSingleDivisionView: View {
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
     @Binding var newTheme: Theme
+    @Binding var newDate: Date
     
     var namespace: Namespace.ID
     
@@ -21,11 +22,11 @@ struct EditSingleDivisionView: View {
         self._data = data
         self.namespace = namespace
         self._newTheme = data.theme
+        self._newDate = data.date
     }
     
     var body: some View {
         VStack {
-            Spacer()
             Spacer()
             ZStack {
                 RoundedRectangle(cornerRadius: 30)
@@ -78,6 +79,26 @@ struct EditSingleDivisionView: View {
                                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                             }
                         ThemePickerView(selection: $newTheme)
+                    }
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    
+                    Text("Date")
+                        .font(.footnote.bold())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .foregroundColor(data.theme.textColor)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(UIColor.systemBackground))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                            }
+                        DatePickerView(date: $newDate, color: data.theme.mainColor)
+                            .padding()
                     }
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 20))

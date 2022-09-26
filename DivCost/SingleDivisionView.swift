@@ -237,68 +237,47 @@ struct SingleDivisionView: View {
                             }
                         }
                         else {
-                            ZStack {
-                                VStack {
+                            VStack {
+                                Spacer()
+                                ZStack {
                                     VStack {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 30)
-                                                .fill(Material.thin)
-                                                .matchedGeometryEffect(id: "topBG", in: namespace)
-                                            
-                                            VStack(alignment: .leading) {
-                                                Text("Summary")
-                                                    .font(.footnote.bold())
-                                                    .foregroundColor(.primary)
-                                                ZStack {
-                                                    RoundedRectangle(cornerRadius: 20)
-                                                        .fill(division.theme.mainColor)
-                                                        .overlay {
-                                                            RoundedRectangle(cornerRadius: 20)
-                                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                                                        }
-                                                    Button (action: {
-                                                        withAnimation {
-                                                            calculationsSheetShown = true
-                                                        }
-                                                    }) {
-                                                        HStack {
-                                                            Label("Calculated Divisions", systemImage: "function")
-                                                            Spacer()
-                                                            Image(systemName: "chevron.right")
-                                                        }
-                                                        .foregroundColor(division.theme.textColor)
-                                                        .font(.headline)
-                                                        .padding(.vertical, 25)
-                                                        .padding(.horizontal)
-                                                    }
-                                                }
-                                                .matchedGeometryEffect(id: "calculationsBG", in: namespace)
-                                                .fixedSize(horizontal: false, vertical: true)
+                                        VStack {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 30)
+                                                    .fill(Material.thin)
+                                                    .matchedGeometryEffect(id: "topBG", in: namespace)
                                                 
-                                                HStack {
+                                                VStack(alignment: .leading) {
+                                                    Text("Summary")
+                                                        .font(.footnote.bold())
+                                                        .foregroundColor(.primary)
                                                     ZStack {
                                                         RoundedRectangle(cornerRadius: 20)
                                                             .fill(division.theme.mainColor)
                                                             .overlay {
                                                                 RoundedRectangle(cornerRadius: 20)
-                                                                    .fill(Material.thin)
-                                                            }
-                                                            .overlay {
-                                                                RoundedRectangle(cornerRadius: 20)
                                                                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                             }
-                                                        Label("\(division.total, specifier: "%.2f") zł", systemImage: "banknote")
+                                                        Button (action: {
+                                                            withAnimation {
+                                                                calculationsSheetShown = true
+                                                            }
+                                                        }) {
+                                                            HStack {
+                                                                Label("Calculated Divisions", systemImage: "function")
+                                                                Spacer()
+                                                                Image(systemName: "chevron.right")
+                                                            }
+                                                            .foregroundColor(division.theme.textColor)
+                                                            .font(.headline)
+                                                            .padding(.vertical, 25)
                                                             .padding(.horizontal)
-                                                            .padding(.vertical,10)
-                                                    }
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                                    Spacer()
-                                                    Button(action: {
-                                                        withAnimation {
-                                                            data = division.data
-                                                            editDetailsSheetShown = true
                                                         }
-                                                    }) {
+                                                    }
+                                                    .matchedGeometryEffect(id: "calculationsBG", in: namespace)
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                    
+                                                    HStack {
                                                         ZStack {
                                                             RoundedRectangle(cornerRadius: 20)
                                                                 .fill(division.theme.mainColor)
@@ -310,174 +289,233 @@ struct SingleDivisionView: View {
                                                                     RoundedRectangle(cornerRadius: 20)
                                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                                 }
-                                                            HStack {
-                                                                Spacer()
-                                                                Image(systemName: "gear")
-                                                                Spacer()
-                                                                Image(systemName: "chevron.right")
-                                                            }
-                                                            .padding(.horizontal)
-                                                            .padding(.vertical,10)
+                                                            Label(division.getStringDate(), systemImage: "calendar")
+                                                                .padding(.horizontal)
+                                                                .padding(.vertical,10)
                                                         }
-                                                    }
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                                    .matchedGeometryEffect(id: "editDivisionDetails", in: namespace)
-                                                    .matchedGeometryEffect(id: "editDivisionCancel", in: namespace)
-                                                    .matchedGeometryEffect(id: "editDivisionConfirm", in: namespace)
-                                                }
-                                                .foregroundColor(division.theme.textColor)
-                                            }
-                                            .font(.headline)
-                                            .padding()
-                                        }
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 30)
-                                                .fill(Material.thin)
-                                                .matchedGeometryEffect(id: "bottomBG", in: namespace)
-                                            VStack (alignment: .leading){
-                                                VStack {
-                                                    Text("People & Expenses")
-                                                        .font(.footnote.bold())
-                                                        .foregroundColor(.primary)
-                                                }
-                                                .padding([.leading, .top])
-                                                List {
-                                                    ForEach(division.people.sorted()) { person in
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                        Spacer()
                                                         ZStack {
                                                             RoundedRectangle(cornerRadius: 20)
-                                                                .fill(Color(UIColor.systemBackground))
+                                                                .fill(division.theme.mainColor)
+                                                                .overlay {
+                                                                    RoundedRectangle(cornerRadius: 20)
+                                                                        .fill(Material.thin)
+                                                                }
                                                                 .overlay {
                                                                     RoundedRectangle(cornerRadius: 20)
                                                                         .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                                 }
-                                                            VStack {
-                                                                HStack {
-                                                                    Label("\(person.name)", systemImage: "person")
-                                                                        .font(.headline)
-                                                                        .labelStyle(DualColorLabel(iconColor: division.theme.mainColor))
-                                                                    Spacer()
-                                                                    Text("\(person.balance, specifier: "%.2f") zł")
-                                                                        .font(.footnote.bold())
-                                                                        .foregroundColor(getBalanceColor(balance: person.balance))
-                                                                }
-                                                                Group {
-                                                                    if hasExpenses(expenses: person.expenses) {
-                                                                        ZStack {
-                                                                            RoundedRectangle(cornerRadius: 20)
-                                                                                .fill(Color.green.opacity(0.2))
-                                                                            VStack {
-                                                                                ForEach(person.expenses.sorted()) { expense in //
-                                                                                    HStack {
-                                                                                        Label("\(expense.name)", systemImage: "chevron.up")
-                                                                                        Spacer()
-                                                                                        Text("\(expense.price, specifier: "%.2f") zł") //można potem dodać wybieranie waluty i guess
-                                                                                    }
-                                                                                    .padding(.vertical,2)
-                                                                                    .foregroundColor(Color.darkGreen)
-                                                                                    //.listRowSeparator(.hidden)
-                                                                                    //.listRowBackground(Color.green.opacity(0.2))
-                                                                                }
-                                                                            }
-                                                                            .padding()
-                                                                        }
-                                                                        .fixedSize(horizontal: false, vertical: true)
-                                                                    } else {}
-                                                                }
-                                                                Group {
-                                                                    if hasDebts(debts: person.debts) {
-                                                                        ZStack {
-                                                                            RoundedRectangle(cornerRadius: 20)
-                                                                                .fill(Color.red.opacity(0.2))
-                                                                            VStack {
-                                                                                ForEach(person.debts.sorted()) { debt in //
-                                                                                    HStack {
-                                                                                        Label("\(debt.name)", systemImage: "chevron.down")
-                                                                                        Spacer()
-                                                                                        Text("\(debt.price, specifier: "%.2f") zł")
-                                                                                    }
-                                                                                    .padding(.vertical,2)
-                                                                                    .foregroundColor(Color.darkRed)
-                                                                                    //.listRowSeparator(.hidden)
-                                                                                    //.listRowBackground(Color.red.opacity(0.2))
-                                                                                }
-                                                                            }
-                                                                            .padding()
-                                                                        }
-                                                                        .fixedSize(horizontal: false, vertical: true)
-                                                                    } else {}
-                                                                }
-                                                            }
-                                                            .padding()
+                                                            Label("\(division.total, specifier: "%.2f") zł", systemImage: "banknote")
+                                                                .padding(.horizontal)
+                                                                .padding(.vertical,10)
                                                         }
                                                         .fixedSize(horizontal: false, vertical: true)
-                                                        
-                                                        
                                                     }
-                                                    .listRowBackground(Color.clear)
-                                                    .listRowSeparator(.hidden)
-                                                    Spacer(minLength: 100)
+                                                    HStack {
+                                                        ZStack {
+                                                            RoundedRectangle(cornerRadius: 20)
+                                                                .fill(division.theme.mainColor)
+                                                                .overlay {
+                                                                    RoundedRectangle(cornerRadius: 20)
+                                                                        .fill(Material.thin)
+                                                                }
+                                                                .overlay {
+                                                                    RoundedRectangle(cornerRadius: 20)
+                                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                                }
+                                                            Label("\(division.people.count)", systemImage: "person.2")
+                                                                .padding(.horizontal)
+                                                                .padding(.vertical,10)
+                                                        }
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                        Spacer()
+                                                        Button(action: {
+                                                            withAnimation {
+                                                                data = division.data
+                                                                editDetailsSheetShown = true
+                                                            }
+                                                        }) {
+                                                            ZStack {
+                                                                RoundedRectangle(cornerRadius: 20)
+                                                                    .fill(division.theme.mainColor)
+                                                                    .overlay {
+                                                                        RoundedRectangle(cornerRadius: 20)
+                                                                            .fill(Material.thin)
+                                                                    }
+                                                                    .overlay {
+                                                                        RoundedRectangle(cornerRadius: 20)
+                                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                                    }
+                                                                HStack {
+                                                                    Spacer()
+                                                                    Image(systemName: "gear")
+                                                                    Spacer()
+                                                                    Image(systemName: "chevron.right")
+                                                                }
+                                                                .padding(.horizontal)
+                                                                .padding(.vertical,10)
+                                                            }
+                                                        }
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                        .matchedGeometryEffect(id: "editDivisionDetails", in: namespace)
+                                                        .matchedGeometryEffect(id: "editDivisionCancel", in: namespace)
+                                                        .matchedGeometryEffect(id: "editDivisionConfirm", in: namespace)
+                                                    }
+                                                }
+                                                .foregroundColor(division.theme.textColor)
+                                                .font(.footnote.bold())
+                                                .padding()
+                                            }
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 30)
+                                                    .fill(Material.thin)
+                                                    .matchedGeometryEffect(id: "bottomBG", in: namespace)
+                                                VStack (alignment: .leading){
+                                                    VStack {
+                                                        Text("People & Expenses")
+                                                            .font(.footnote.bold())
+                                                            .foregroundColor(.primary)
+                                                    }
+                                                    .padding([.leading, .top])
+                                                    List {
+                                                        ForEach(division.people.sorted()) { person in
+                                                            ZStack {
+                                                                RoundedRectangle(cornerRadius: 20)
+                                                                    .fill(Color(UIColor.systemBackground))
+                                                                    .overlay {
+                                                                        RoundedRectangle(cornerRadius: 20)
+                                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                                    }
+                                                                VStack {
+                                                                    HStack {
+                                                                        Label("\(person.name)", systemImage: "person")
+                                                                            .font(.headline)
+                                                                            .labelStyle(DualColorLabel(iconColor: division.theme.mainColor))
+                                                                        Spacer()
+                                                                        Text("\(person.balance, specifier: "%.2f") zł")
+                                                                            .font(.footnote.bold())
+                                                                            .foregroundColor(getBalanceColor(balance: person.balance))
+                                                                    }
+                                                                    Group {
+                                                                        if hasExpenses(expenses: person.expenses) {
+                                                                            ZStack {
+                                                                                RoundedRectangle(cornerRadius: 20)
+                                                                                    .fill(Color.green.opacity(0.2))
+                                                                                VStack {
+                                                                                    ForEach(person.expenses.sorted()) { expense in //
+                                                                                        HStack {
+                                                                                            Label("\(expense.name)", systemImage: "chevron.up")
+                                                                                            Spacer()
+                                                                                            Text("\(expense.price, specifier: "%.2f") zł") //można potem dodać wybieranie waluty i guess
+                                                                                        }
+                                                                                        .padding(.vertical,2)
+                                                                                        .foregroundColor(Color.darkGreen)
+                                                                                        //.listRowSeparator(.hidden)
+                                                                                        //.listRowBackground(Color.green.opacity(0.2))
+                                                                                    }
+                                                                                }
+                                                                                .padding()
+                                                                            }
+                                                                            .fixedSize(horizontal: false, vertical: true)
+                                                                        } else {}
+                                                                    }
+                                                                    Group {
+                                                                        if hasDebts(debts: person.debts) {
+                                                                            ZStack {
+                                                                                RoundedRectangle(cornerRadius: 20)
+                                                                                    .fill(Color.red.opacity(0.2))
+                                                                                VStack {
+                                                                                    ForEach(person.debts.sorted()) { debt in //
+                                                                                        HStack {
+                                                                                            Label("\(debt.name)", systemImage: "chevron.down")
+                                                                                            Spacer()
+                                                                                            Text("\(debt.price, specifier: "%.2f") zł")
+                                                                                        }
+                                                                                        .padding(.vertical,2)
+                                                                                        .foregroundColor(Color.darkRed)
+                                                                                        //.listRowSeparator(.hidden)
+                                                                                        //.listRowBackground(Color.red.opacity(0.2))
+                                                                                    }
+                                                                                }
+                                                                                .padding()
+                                                                            }
+                                                                            .fixedSize(horizontal: false, vertical: true)
+                                                                        } else {}
+                                                                    }
+                                                                }
+                                                                .padding()
+                                                            }
+                                                            .fixedSize(horizontal: false, vertical: true)
+                                                            
+                                                            
+                                                        }
                                                         .listRowBackground(Color.clear)
                                                         .listRowSeparator(.hidden)
+                                                        Spacer(minLength: 100)
+                                                            .listRowBackground(Color.clear)
+                                                            .listRowSeparator(.hidden)
+                                                    }
+                                                    .listStyle(.plain)
+                                                    .modifier(ListBackgroundModifier())
+                                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                                    
                                                 }
-                                                .listStyle(.plain)
-                                                .modifier(ListBackgroundModifier())
-                                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                                
+                                                //.padding()
                                             }
-                                            //.padding()
+                                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                                            .offset(x: 0, y: bottomOffset)
+                                            //}
+                                            //.listStyle(.plain)
+                                            //.padding([.leading,.trailing])
                                         }
-                                        .clipShape(RoundedRectangle(cornerRadius: 30))
-                                        .offset(x: 0, y: bottomOffset)
-                                        //}
-                                        //.listStyle(.plain)
-                                        //.padding([.leading,.trailing])
+                                        .ignoresSafeArea()
+                                        //.padding()
                                     }
-                                    .ignoresSafeArea()
-                                    //.padding()
-                                }
-                                VStack {
-                                    Spacer()
-                                    HStack {
+                                    VStack {
                                         Spacer()
-                                        ZStack {
-                                            Circle()
-                                                .fill(division.theme.mainColor)
-                                                .overlay {
-                                                    Circle()
-                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                        HStack {
+                                            Spacer()
+                                            ZStack {
+                                                Circle()
+                                                    .fill(division.theme.mainColor)
+                                                    .overlay {
+                                                        Circle()
+                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                    }
+                                                Button(action: {
+                                                    withAnimation {
+                                                        data = division.data
+                                                        editSheetShown = true
+                                                    }
+                                                }) {
+                                                    Image(systemName: "plus")
+                                                        .font(.headline)
+                                                        .foregroundColor(division.theme.textColor)
+                                                        .padding(20)
                                                 }
-                                            Button(action: {
-                                                withAnimation {
-                                                    data = division.data
-                                                    editSheetShown = true
-                                                }
-                                            }) {
-                                                Image(systemName: "plus")
-                                                    .font(.headline)
-                                                    .foregroundColor(division.theme.textColor)
-                                                    .padding(20)
                                             }
+                                            .fixedSize()
+                                            .matchedGeometryEffect(id: "editProductCard", in: namespace)
+                                            .matchedGeometryEffect(id: "cancelProductButton", in: namespace)
+                                            .matchedGeometryEffect(id: "confirmProductButton", in: namespace)
                                         }
-                                        .fixedSize()
-                                        .matchedGeometryEffect(id: "editProductCard", in: namespace)
-                                        .matchedGeometryEffect(id: "cancelProductButton", in: namespace)
-                                        .matchedGeometryEffect(id: "confirmProductButton", in: namespace)
+                                        .padding(.horizontal)
+                                        
                                     }
-                                    .padding(.horizontal)
-                                    
                                 }
+                                .onAppear {
+                                    withAnimation {
+                                        bottomOffset = 0
+                                    }
+                                }
+                                .onDisappear {
+                                    withAnimation {
+                                        bottomOffset = UIScreen.main.bounds.height
+                                    }
                             }
-                            .onAppear {
-                                withAnimation {
-                                    bottomOffset = 0
-                                }
-                            }
-                            .onDisappear {
-                                withAnimation {
-                                    bottomOffset = UIScreen.main.bounds.height
-                                }
                             }
                         }
                         

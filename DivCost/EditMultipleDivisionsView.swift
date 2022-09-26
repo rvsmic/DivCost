@@ -14,6 +14,7 @@ struct EditMultipleDivisionsView: View {
     @State private var newPeople: [Person] = []
     @State private var newDivisionName: String = ""
     @State private var newPerson: String = ""
+    @State private var newDate: Date = Date()
     @State private var newTheme: Theme = .poppy
     
     var namespace: Namespace.ID
@@ -31,7 +32,6 @@ struct EditMultipleDivisionsView: View {
             Spacer()
             ZStack {
                 VStack {
-                    Spacer()
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(theme.mainColor)
@@ -65,6 +65,26 @@ struct EditMultipleDivisionsView: View {
                                 }
                                 .clipped()
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
+                                
+                                Text("Date")
+                                    .font(.footnote.bold())
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                                    .foregroundColor(theme.textColor)
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color(UIColor.systemBackground))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                        }
+                                    DatePickerView(date: $newDate, color: theme.mainColor)
+                                        .padding()
+                                }
+                                .clipped()
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
                                 
                                 Text("New People")
                                     .font(.footnote.bold())
@@ -124,7 +144,7 @@ struct EditMultipleDivisionsView: View {
                                 HStack {
                                     Button(action: {
                                         withAnimation {
-                                            data.divisions.append(Division(name: newDivisionName, people: newPeople, theme: newTheme))
+                                            data.divisions.append(Division(name: newDivisionName, people: newPeople, date: newDate, theme: newTheme))
                                         }
                                         newPerson = ""
                                         newDivisionName = ""

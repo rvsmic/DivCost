@@ -8,10 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct Division: Identifiable, Codable {//dodać date!
+struct Division: Identifiable, Codable, Comparable {
+    static func < (lhs: Division, rhs: Division) -> Bool {
+        if lhs.date < rhs.date {
+            return false
+        } else {
+            return true
+        }
+    }
     let id: UUID
     var name: String
     var people: [Person]
+    var date: Date
     var theme: Theme
     var total: Double {
         var total: Double = 0
@@ -21,10 +29,11 @@ struct Division: Identifiable, Codable {//dodać date!
         return total
     }
     
-    init(id: UUID = UUID(), name: String, people: [Person] = [], theme: Theme) {
+    init(id: UUID = UUID(), name: String, people: [Person] = [], date: Date, theme: Theme) {
         self.id = id
         self.name = name
         self.people = people
+        self.date = date
         self.theme = theme
     }
     
@@ -58,16 +67,23 @@ struct Division: Identifiable, Codable {//dodać date!
         }
         return divisions[0]
     }
+    
+    func getStringDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter.string(from: date)
+    }
 }
 
 extension Division {
-    static let sampleDivisions: [Division] = [Division(name: "Warszawa", theme: .poppy), Division(name: "Starówka", people: Person.samplePeople, theme: .navy), Division(name: "Miłocin", theme: .salmon)]
+    static let sampleDivisions: [Division] = [Division(name: "Warszawa", date: Date(), theme: .poppy), Division(name: "Starówka", people: Person.samplePeople, date: Date(), theme: .navy), Division(name: "Miłocin", date: Date(), theme: .salmon)]
 }
 
 extension Division {
     struct Data {
         var name: String = ""
         var people: [Person] = []
+        var date: Date = Date()
         var theme: Theme = .ruddy
         
         
@@ -161,12 +177,13 @@ extension Division {
     }
     
     var data: Data {
-        Data(name: name, people: people, theme: theme)
+        Data(name: name, people: people.sorted(by: Person.nameSort), date: date, theme: theme)
     }
     
     mutating func update(from data: Data) {
         name = data.name
         people = data.people
+        date = data.date
         theme = data.theme
     }
     
@@ -174,6 +191,7 @@ extension Division {
         id = UUID()
         name = data.name
         people = data.people
+        date = data.date
         theme = data.theme
     }
 }

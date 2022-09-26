@@ -30,7 +30,6 @@ struct AddExpensesView: View {
             Spacer()
             ZStack {
                 VStack {
-                    Spacer()
                     //Group {
                         
                      //   else {
@@ -182,7 +181,7 @@ struct AddExpensesView: View {
                                         Text("Expenses")
                                             .font(.footnote.bold())
                                             .foregroundColor(data.theme.textColor)
-                                        ForEach(data.people.sorted()) { person in //.sorted()
+                                        ForEach(data.people.sorted(by: Person.nameSort)) { person in
                                             Section {
                                                 ZStack (alignment: .leading){
                                                     RoundedRectangle(cornerRadius: 20)

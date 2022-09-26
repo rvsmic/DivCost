@@ -164,102 +164,113 @@ struct DivisionsView: View {
                             }
                         }
                         else {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 30)
-                                    .fill(Material.thin)
-                                    .ignoresSafeArea()
-                                    .matchedGeometryEffect(id: "topBG", in: namespace)
-                                ScrollView {
-                                    ForEach($divisions) { $division in
-                                        Button(action: {
-                                            withAnimation {
-                                                showDivisionView = true
-                                            } //!!!!!!!!!!
-                                            chosenDivisionID = division.id
-                                        }) {
+                            VStack {
+                                Spacer()
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 30)
+                                        .fill(Material.thin)
+                                        .ignoresSafeArea()
+                                        .matchedGeometryEffect(id: "topBG", in: namespace)
+                                    ScrollView {
+                                        ForEach(divisions.sorted()) { division in
+                                            Button(action: {
+                                                withAnimation {
+                                                    showDivisionView = true
+                                                } //!!!!!!!!!!
+                                                chosenDivisionID = division.id
+                                            }) {
+                                                ZStack {
+                                                    RoundedRectangle(cornerRadius: 20)
+                                                        .fill(Color(UIColor.systemBackground))
+                                                        .overlay {
+                                                            RoundedRectangle(cornerRadius: 20)
+                                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                        }
+                                                    HStack {
+                                                        VStack (alignment: .leading){
+                                                            Text(division.name)
+                                                                .font(.title.bold())
+                                                                .foregroundColor(.primary)
+                                                            Spacer()
+                                                            ZStack {
+                                                                RoundedRectangle(cornerRadius: 10)
+                                                                    .fill(division.theme.mainColor)
+                                                                    .overlay {
+                                                                        RoundedRectangle(cornerRadius: 10)
+                                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                                                                    }
+                                                                HStack {
+                                                                    Label(division.getStringDate(), systemImage: "calendar")
+                                                                    Spacer()
+                                                                    Label("\(division.total, specifier: "%.2f") zł", systemImage: "banknote")
+                                                                    Spacer()
+                                                                    Label("\(division.people.count)", systemImage: "person.2")
+                                                                }
+                                                                .font(.caption)
+                                                                .padding(10)
+                                                                .foregroundColor(division.theme.textColor)
+                                                            }
+                                                            .fixedSize(horizontal: false, vertical: true)
+                                                        }
+                                                        Spacer()
+                                                        Image(systemName: "chevron.right")
+                                                            .font(.headline)
+                                                            .foregroundColor(.primary)
+                                                    }
+                                                    .padding(20)
+                                                }
+                                                .fixedSize(horizontal: false, vertical: true)
+                                            }
+                                            
+                                        }
+                                        .matchedGeometryEffect(id: "title", in: namespace)
+                                        .padding()
+                                    }
+                                    HStack {
+                                        Spacer()
+                                        VStack {
+                                            Spacer()
                                             ZStack {
-                                                RoundedRectangle(cornerRadius: 20)
-                                                    .fill(Color(UIColor.systemBackground))
-                                                    //.shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 1)
+                                                Circle()
+                                                    .fill(theme.mainColor)
                                                     .overlay {
-                                                        RoundedRectangle(cornerRadius: 20)
+                                                        Circle()
                                                             .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
                                                     }
-                                                HStack {
-                                                    Text(division.name)
-                                                        .font(.headline)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    ZStack {
-                                                        RoundedRectangle(cornerRadius: 20)
-                                                            .fill(division.theme.mainColor)
-                                                            .overlay {
-                                                                RoundedRectangle(cornerRadius: 20)
-                                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                                                            }
-                                                        Label("\(division.people.count)", systemImage: "person.2")
-                                                            .font(.caption)
-                                                            .padding(10)
-                                                            .foregroundColor(division.theme.textColor)
+                                                    //.shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 1)
+                                                Button(action: {
+                                                    let multipleDivisions = MultipleDivisions(divisions: divisions)
+                                                    data = multipleDivisions.multipleData
+                                                    withAnimation {
+                                                        showEditView = true
                                                     }
-                                                    .fixedSize()
-                                                    Image(systemName: "chevron.right")
+                                                }) {
+                                                    Image(systemName: "plus")
                                                         .font(.headline)
-                                                        .foregroundColor(.primary)
+                                                        .foregroundColor(.black)
+                                                        .padding(20)
                                                 }
-                                                .padding(20)
                                             }
-                                            .fixedSize(horizontal: false, vertical: true)
+                                            .fixedSize()
+                                            .matchedGeometryEffect(id: "mainCard", in: namespace)
+                                            
+                                            .matchedGeometryEffect(id: "cancelButton", in: namespace)
+                                            .matchedGeometryEffect(id: "confirmButton", in: namespace)
                                         }
-                                        
+                                        .padding(.trailing)
                                     }
-                                    .matchedGeometryEffect(id: "title", in: namespace)
-                                    .padding()
                                 }
-                                HStack {
-                                    Spacer()
-                                    VStack {
-                                        Spacer()
-                                        ZStack {
-                                            Circle()
-                                                .fill(theme.mainColor)
-                                                .overlay {
-                                                    Circle()
-                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                                                }
-                                                //.shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 1)
-                                            Button(action: {
-                                                let multipleDivisions = MultipleDivisions(divisions: divisions)
-                                                data = multipleDivisions.multipleData
-                                                withAnimation {
-                                                    showEditView = true
-                                                }
-                                            }) {
-                                                Image(systemName: "plus")
-                                                    .font(.headline)
-                                                    .foregroundColor(.black)
-                                                    .padding(20)
-                                            }
-                                        }
-                                        .fixedSize()
-                                        .matchedGeometryEffect(id: "mainCard", in: namespace)
-                                        
-                                        .matchedGeometryEffect(id: "cancelButton", in: namespace)
-                                        .matchedGeometryEffect(id: "confirmButton", in: namespace)
+                                .offset(x: 0, y: bottomOffset)
+                                .onAppear {
+                                    withAnimation {
+                                        bottomOffset = 0
                                     }
-                                    .padding(.trailing)
                                 }
+                                .onDisappear {
+                                    withAnimation {
+                                        bottomOffset = UIScreen.main.bounds.height
+                                    }
                             }
-                            .offset(x: 0, y: bottomOffset)
-                            .onAppear {
-                                withAnimation {
-                                    bottomOffset = 0
-                                }
-                            }
-                            .onDisappear {
-                                withAnimation {
-                                    bottomOffset = UIScreen.main.bounds.height
-                                }
                             }
                         }
                     }
