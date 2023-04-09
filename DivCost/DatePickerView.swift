@@ -15,7 +15,6 @@ struct DatePickerView: View {
             DatePicker("Date", selection: $date, displayedComponents: [.date])
                 .labelsHidden()
                 .accentColor(color)
-                .foregroundColor(.red)
                 .datePickerStyle(.graphical)
         }
     }
