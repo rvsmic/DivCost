@@ -1,6 +1,8 @@
 
 # DivCost
 
+*Currently working on a new design on this branch, however working old design is on the main branch*
+
 My second project in Swift during summer break of 2022.
 
 Simple offline app for dividing costs between people designed for iOS devices. The idea for this app was in my head for many years and this is my first GUI based implementation. Main premise of this app is to ease the process of dividing costs among people after a social gathering - it is a variation of an advanced calculator.
