@@ -16,13 +16,15 @@ struct DivCostApp: App {
     
     var body: some Scene {
         WindowGroup {
-            DivisionsView(divisions: $divisionStore.divisions) {
-                DivisionStore.save(divisions: divisionStore.divisions) { result in
-                    Task {
-                        do {
-                            try await DivisionStore.save(divisions: divisionStore.divisions)
-                        } catch {
-                            errorWrapper = ErrorWrapper(error: error, guidance: "Error saving divisions. Try again later.")
+            NavigationView {
+                DivisionsView(divisions: $divisionStore.divisions) {
+                    DivisionStore.save(divisions: divisionStore.divisions) { result in
+                        Task {
+                            do {
+                                try await DivisionStore.save(divisions: divisionStore.divisions)
+                            } catch {
+                                errorWrapper = ErrorWrapper(error: error, guidance: "Error saving divisions. Try again later.")
+                            }
                         }
                     }
                 }

@@ -20,3 +20,7 @@ struct Calculations: Identifiable {
         self.value = value
     }
 }
+
+extension Calculations {
+    static let sampleCalculations: [Calculations] = [Calculations(payerName: "Pablo", debtorName: "Diego", value: 24.50), Calculations(payerName: "Pablo", debtorName: "Walter", value: 10.99), Calculations(payerName: "Walter", debtorName: "Diego", value: 200)]
+}

@@ -17,14 +17,11 @@ struct EditMultipleDivisionsView: View {
     @State private var newDate: Date = Date()
     @State private var newTheme: Theme = .poppy
     
-    var namespace: Namespace.ID
-    
     let theme: Theme = .div_cost
     
-    init(data: Binding<MultipleDivisions.MultipleData>, namespace: Namespace.ID) {
+    init(data: Binding<MultipleDivisions.MultipleData>) {
         UITableView.appearance().backgroundColor = UIColor(Color.clear)
         self._data = data
-        self.namespace = namespace
     }
     
     var body: some View {       //dodac wybor motywu
@@ -219,13 +216,11 @@ struct EditMultipleDivisionsView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                     }
                     .padding(.horizontal)
-                    .matchedGeometryEffect(id: "mainCard", in: namespace)
                 }
                 RoundedRectangle(cornerRadius: 30)
                     .stroke(theme.mainColor, lineWidth: 20)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .padding(.horizontal)
-                    .matchedGeometryEffect(id: "mainCard", in: namespace)
             }
         }
     }
@@ -233,11 +228,6 @@ struct EditMultipleDivisionsView: View {
 
 struct EditMultipleDivisionsView_Previews: PreviewProvider {
     static var previews: some View {
-        
-        EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData), namespace: Namespace.init().wrappedValue)
-            .preferredColorScheme(.light)
-        
-        EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData), namespace: Namespace.init().wrappedValue)
-            .preferredColorScheme(.dark)
+        EditMultipleDivisionsView(data: .constant(MultipleDivisions.sampleData.multipleData))
     }
 }

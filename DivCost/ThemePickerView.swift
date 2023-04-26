@@ -14,7 +14,7 @@ struct ThemePickerView: View {
             Picker("Theme", selection: $selection) {
                 ForEach(Theme.allCases, id: \.self) { theme in
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: 20)
                             .fill(theme.mainColor)
                         Text(theme.name)
                             .font(.headline)
