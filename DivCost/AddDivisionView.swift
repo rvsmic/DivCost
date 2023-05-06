@@ -82,7 +82,7 @@ struct AddDivisionView: View {
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
                 
-                ForEach($division.people.sorted {$0.name.wrappedValue < $1.name.wrappedValue}) { $person in
+                ForEach($division.people.sorted {$0.name.wrappedValue.lowercased() < $1.name.wrappedValue.lowercased()}) { $person in
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(Color(UIColor.systemBackground))

@@ -29,6 +29,7 @@ struct CalculationsView: View {
                 Spacer(minLength: 200)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
+                    .listRowBackground(Color.clear)
             }
             .background(theme.mainColor.opacity(0.1))
             .background(.ultraThinMaterial)

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Person: Identifiable, Comparable, Codable {
     static func < (lhs: Person, rhs: Person) -> Bool {
-        if (lhs.balance,rhs.name) < (rhs.balance,lhs.name) {
+        if (lhs.balance,rhs.name.lowercased()) < (rhs.balance,lhs.name.lowercased()) {
             return false
         } else {
             return true
@@ -18,7 +18,7 @@ struct Person: Identifiable, Comparable, Codable {
     }
     
     static func nameSort (lhs: Person, rhs: Person) -> Bool {
-        if lhs.name < rhs.name {
+        if lhs.name.lowercased() < rhs.name.lowercased() {
             return true
         } else {
             return false

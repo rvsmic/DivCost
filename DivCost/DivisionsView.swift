@@ -38,7 +38,7 @@ struct DivisionsView: View {
             
             Spacer(minLength: 20)
             List {
-                ForEach($divisions.sorted {($1.date.wrappedValue,$0.name.wrappedValue) < ($0.date.wrappedValue, $1.name.wrappedValue)}) { $division in
+                ForEach($divisions.sorted {($1.date.wrappedValue,$0.name.wrappedValue.lowercased()) < ($0.date.wrappedValue, $1.name.wrappedValue.lowercased())}) { $division in
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(Color(UIColor.systemBackground))

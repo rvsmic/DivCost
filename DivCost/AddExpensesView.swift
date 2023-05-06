@@ -153,7 +153,7 @@ struct AddExpensesView: View {
                                             data.unCheckAll()
                                         }
                                     }
-                                    ForEach($data.people.sorted {$0.name.wrappedValue < $1.name.wrappedValue}) { $person in
+                                    ForEach($data.people.sorted {$0.name.wrappedValue.lowercased() < $1.name.wrappedValue.lowercased()}) { $person in
                                         CheckBoxView(text: person.name, checked: $person.checked, color: data.theme.mainColor, textColor: data.theme.textColor, allChecked: $allChecked, divisionData: $data)
                                             .padding(1)
                                     }
