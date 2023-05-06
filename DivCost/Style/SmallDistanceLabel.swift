@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct SmallIconLabel: LabelStyle {
+//w ios16 dystans miedzy ikona a tekstem z automatu robil sie nieregularny
+struct SmallDistanceLabel: LabelStyle {
     func makeBody(configuration: Configuration) -> some View {
         HStack {
             configuration.icon
-                .font(.caption)
             configuration.title
         }
     }

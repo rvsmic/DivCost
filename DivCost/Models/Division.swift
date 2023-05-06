@@ -31,7 +31,7 @@ struct Division: Identifiable, Codable, Comparable {
     
     init(id: UUID = UUID(), name: String, people: [Person] = [], date: Date, theme: Theme) {
         self.id = id
-        self.name = name
+        self.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         self.people = people
         self.date = date
         self.theme = theme
@@ -73,10 +73,26 @@ struct Division: Identifiable, Codable, Comparable {
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter.string(from: date)
     }
+    
+    func anyNamesEmpty() -> Bool {
+        for person in people {
+            if person.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return true
+            }
+        }
+        return false
+    }
+    
+    mutating func whitespacesNamesFix() {
+        for i in 0..<people.count {
+            people[i].name = people[i].name.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
 }
 
 extension Division {
-    static let sampleDivisions: [Division] = [Division(name: "Warszawa", date: Date(), theme: .poppy), Division(name: "Starówka", people: Person.samplePeople, date: Date(), theme: .navy), Division(name: "Miłocin", date: Date(), theme: .salmon)]
+    static let sampleDivisions: [Division] = [Division(name: "Warszawa", date: Date(), theme: .poppy), Division(name: "Starówka", people: Person.samplePeople, date: Date()-20, theme: .navy), Division(name: "Miłocin", date: Date()-1, theme: .salmon)]
+    static let emptyDivision: Division = Division(name: "", date: Date(), theme: .div_cost)
 }
 
 extension Division {
@@ -105,7 +121,7 @@ extension Division {
             }
         }
         
-        mutating func checkReset() {    //wtf
+        mutating func checkReset() {
             for i in 0..<people.count {
                 if people[i].checked {
                     people[i].checked = false
@@ -136,8 +152,8 @@ extension Division {
         mutating func removePerson(personID: UUID) {
             for i in 0..<people.count {
                 if (people[i].id == personID) {
-                    for j in 0..<people[i].expenses.count {
-                        removeProduct(productName: people[i].expenses[j].name)
+                    while(people[i].expenses.count > 0) {
+                        removeProduct(productName: people[i].expenses[0].name)
                     }
                     let oldDebts = people[i].debts
                     people.remove(at: i)
@@ -174,6 +190,54 @@ extension Division {
                 addProduct(newName: productName, newPrice: productPrice, buyerId: buyerID, debtorsId: debtorsID)
             }
         }
+        
+        func anyNamesEmpty() -> Bool {
+            for person in people {
+                if person.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    return true
+                }
+            }
+            return false
+        }
+        
+        mutating func whitespacesNamesFix() {
+            for i in 0..<people.count {
+                people[i].name = people[i].name.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+        }
+        
+        mutating func checkAll() {
+            for i in 0..<people.count {
+                people[i].checked = true
+            }
+        }
+        
+        mutating func unCheckAll() {
+            for i in 0..<people.count {
+                people[i].checked = false
+            }
+        }
+        
+        func allChecked() -> Bool {
+            for person in people {
+                if !person.checked {
+                    return false
+                }
+            }
+            return true
+        }
+        
+        //kiedys moze dodac po prostu liste dluznikow do produktu to by sie tu nie szukalo
+        mutating func updateChecks(expenseName: String) {
+            for i in 0..<people.count {
+                for debt in people[i].debts {
+                    if debt.name == expenseName {
+                        people[i].checked = true
+                        break
+                    }
+                }
+            }
+        }
     }
     
     var data: Data {
@@ -181,7 +245,7 @@ extension Division {
     }
     
     mutating func update(from data: Data) {
-        name = data.name
+        name = data.name.trimmingCharacters(in: .whitespacesAndNewlines)
         people = data.people
         date = data.date
         theme = data.theme
@@ -189,7 +253,7 @@ extension Division {
     
     init(data: Data) {
         id = UUID()
-        name = data.name
+        name = data.name.trimmingCharacters(in: .whitespacesAndNewlines)
         people = data.people
         date = data.date
         theme = data.theme

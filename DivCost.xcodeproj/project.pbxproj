@@ -15,8 +15,9 @@
 		904DD70828C759C300C0143B /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904DD70728C759C300C0143B /* Calculations.swift */; };
 		90618E7928DCE7E500716727 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90618E7828DCE7E500716727 /* Theme.swift */; };
 		90618E7B28DD2D4600716727 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90618E7A28DD2D4600716727 /* ThemePickerView.swift */; };
+		9068BEF329FC7B1A00374A04 /* ManageDivisionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9068BEF229FC7B1A00374A04 /* ManageDivisionCardView.swift */; };
+		9068BEF729FEF7B600374A04 /* NumbersOnlyViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9068BEF629FEF7B600374A04 /* NumbersOnlyViewModifier.swift */; };
 		9082654729E4347800886810 /* PersonExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9082654629E4347800886810 /* PersonExpensesView.swift */; };
-		9082654929E472AF00886810 /* RightIconLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9082654829E472AF00886810 /* RightIconLabel.swift */; };
 		9083F55528C6B5970082AF15 /* DivCostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55428C6B5970082AF15 /* DivCostApp.swift */; };
 		9083F55728C6B5970082AF15 /* DivisionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9083F55628C6B5970082AF15 /* DivisionsView.swift */; };
 		9083F55928C6B59A0082AF15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9083F55828C6B59A0082AF15 /* Assets.xcassets */; };
@@ -32,10 +33,9 @@
 		90986FC528DFA2920056B716 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90986FC428DFA2920056B716 /* ErrorView.swift */; };
 		909C7D3328CBACD600B6A399 /* EditMultipleDivisionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C7D3228CBACD600B6A399 /* EditMultipleDivisionsView.swift */; };
 		909C7D3528CBDECC00B6A399 /* EditSingleDivisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */; };
-		90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */; };
+		90A3A28C28C79D1300296A7C /* SmallDistanceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A28B28C79D1300296A7C /* SmallDistanceLabel.swift */; };
 		90A3A28E28C7A2F300296A7C /* AddExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3A28D28C7A2F300296A7C /* AddExpensesView.swift */; };
 		90A8D5A128C7F48F00F5FDAF /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */; };
-		90A8D5A328C8001C00F5FDAF /* ForegroundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,8 +47,9 @@
 		904DD70728C759C300C0143B /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
 		90618E7828DCE7E500716727 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		90618E7A28DD2D4600716727 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
+		9068BEF229FC7B1A00374A04 /* ManageDivisionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDivisionCardView.swift; sourceTree = "<group>"; };
+		9068BEF629FEF7B600374A04 /* NumbersOnlyViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersOnlyViewModifier.swift; sourceTree = "<group>"; };
 		9082654629E4347800886810 /* PersonExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonExpensesView.swift; sourceTree = "<group>"; };
-		9082654829E472AF00886810 /* RightIconLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightIconLabel.swift; sourceTree = "<group>"; };
 		9083F55128C6B5970082AF15 /* DivCost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DivCost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9083F55428C6B5970082AF15 /* DivCostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivCostApp.swift; sourceTree = "<group>"; };
 		9083F55628C6B5970082AF15 /* DivisionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionsView.swift; sourceTree = "<group>"; };
@@ -65,10 +66,9 @@
 		90986FC428DFA2920056B716 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		909C7D3228CBACD600B6A399 /* EditMultipleDivisionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMultipleDivisionsView.swift; sourceTree = "<group>"; };
 		909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSingleDivisionView.swift; sourceTree = "<group>"; };
-		90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallIconLabel.swift; sourceTree = "<group>"; };
+		90A3A28B28C79D1300296A7C /* SmallDistanceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallDistanceLabel.swift; sourceTree = "<group>"; };
 		90A3A28D28C7A2F300296A7C /* AddExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpensesView.swift; sourceTree = "<group>"; };
 		90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
-		90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,15 +107,11 @@
 				90986FC428DFA2920056B716 /* ErrorView.swift */,
 				9083F55628C6B5970082AF15 /* DivisionsView.swift */,
 				9083F56928C6BB490082AF15 /* SingleDivisionView.swift */,
-				902E243628E11D3800B0AA10 /* DatePickerView.swift */,
 				909C7D3428CBDECC00B6A399 /* EditSingleDivisionView.swift */,
 				90A3A28D28C7A2F300296A7C /* AddExpensesView.swift */,
-				90618E7A28DD2D4600716727 /* ThemePickerView.swift */,
+				908DDA0729E6BA65009E525E /* AddDivisionView.swift */,
 				909C7D3228CBACD600B6A399 /* EditMultipleDivisionsView.swift */,
 				904DD70528C7596F00C0143B /* CalculationsView.swift */,
-				9082654629E4347800886810 /* PersonExpensesView.swift */,
-				908DDA0529E5F555009E525E /* SingleDivisionCardView.swift */,
-				908DDA0729E6BA65009E525E /* AddDivisionView.swift */,
 				9083F55828C6B59A0082AF15 /* Assets.xcassets */,
 				9083F55A28C6B59A0082AF15 /* Preview Content */,
 			);
@@ -147,13 +143,17 @@
 		90A3A28A28C79CFE00296A7C /* Style */ = {
 			isa = PBXGroup;
 			children = (
-				90A3A28B28C79D1300296A7C /* SmallIconLabel.swift */,
-				9082654829E472AF00886810 /* RightIconLabel.swift */,
+				90A3A28B28C79D1300296A7C /* SmallDistanceLabel.swift */,
+				901E260C28CF844E004FC8AB /* DualColorLabel.swift */,
 				90A8D5A028C7F48F00F5FDAF /* CheckBoxView.swift */,
 				903A53AB29E350B5002B6AB2 /* SingleCalculationView.swift */,
-				90A8D5A228C8001C00F5FDAF /* ForegroundButton.swift */,
-				901E260C28CF844E004FC8AB /* DualColorLabel.swift */,
+				908DDA0529E5F555009E525E /* SingleDivisionCardView.swift */,
+				9082654629E4347800886810 /* PersonExpensesView.swift */,
+				9068BEF229FC7B1A00374A04 /* ManageDivisionCardView.swift */,
 				901E260E28CF8629004FC8AB /* OtherMethods.swift */,
+				9068BEF629FEF7B600374A04 /* NumbersOnlyViewModifier.swift */,
+				902E243628E11D3800B0AA10 /* DatePickerView.swift */,
+				90618E7A28DD2D4600716727 /* ThemePickerView.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -228,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9068BEF729FEF7B600374A04 /* NumbersOnlyViewModifier.swift in Sources */,
 				908DDA0829E6BA65009E525E /* AddDivisionView.swift in Sources */,
 				9082654729E4347800886810 /* PersonExpensesView.swift in Sources */,
 				90986FC128DF9F160056B716 /* DivisionStore.swift in Sources */,
@@ -242,10 +243,9 @@
 				90986FC328DFA2620056B716 /* ErrorWrapper.swift in Sources */,
 				904DD70828C759C300C0143B /* Calculations.swift in Sources */,
 				90A8D5A128C7F48F00F5FDAF /* CheckBoxView.swift in Sources */,
+				9068BEF329FC7B1A00374A04 /* ManageDivisionCardView.swift in Sources */,
 				908DDA0629E5F555009E525E /* SingleDivisionCardView.swift in Sources */,
-				90A3A28C28C79D1300296A7C /* SmallIconLabel.swift in Sources */,
-				9082654929E472AF00886810 /* RightIconLabel.swift in Sources */,
-				90A8D5A328C8001C00F5FDAF /* ForegroundButton.swift in Sources */,
+				90A3A28C28C79D1300296A7C /* SmallDistanceLabel.swift in Sources */,
 				902E243728E11D3800B0AA10 /* DatePickerView.swift in Sources */,
 				90A3A28E28C7A2F300296A7C /* AddExpensesView.swift in Sources */,
 				901E260D28CF844E004FC8AB /* DualColorLabel.swift in Sources */,
@@ -392,6 +392,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -422,6 +423,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

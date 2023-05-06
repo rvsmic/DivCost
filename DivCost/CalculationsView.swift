@@ -26,7 +26,7 @@ struct CalculationsView: View {
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
                 .padding(.top,20)
-                Spacer()
+                Spacer(minLength: 200)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
             }

@@ -15,10 +15,6 @@ struct PersonExpensesView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(Color(UIColor.systemBackground))
-//                .overlay {
-//                    RoundedRectangle(cornerRadius: 20)
-//                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-//                }
             VStack {
                 HStack {
                     Label("\(person.name)", systemImage: "person")

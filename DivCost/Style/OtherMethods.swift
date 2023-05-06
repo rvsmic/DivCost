@@ -81,3 +81,13 @@ struct ListBackgroundModifier: ViewModifier {
         }
     }
 }
+
+extension String {
+    func toDouble() -> Double? {
+        if(self.contains(".")) {
+            return NumberFormatter().number(from: self.replacingOccurrences(of: ".", with: Locale.current.decimalSeparator ?? "."))?.doubleValue
+        } else {
+            return NumberFormatter().number(from: self.replacingOccurrences(of: ",", with: Locale.current.decimalSeparator ?? "."))?.doubleValue
+        }
+    }
+}

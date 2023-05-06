@@ -14,7 +14,7 @@ struct ThemePickerView: View {
             Picker("Theme", selection: $selection) {
                 ForEach(Theme.allCases, id: \.self) { theme in
                     ZStack {
-                        RoundedRectangle(cornerRadius: 20)
+                        RoundedRectangle(cornerRadius: 30)
                             .fill(theme.mainColor)
                         Text(theme.name)
                             .font(.headline)
@@ -24,7 +24,6 @@ struct ThemePickerView: View {
             }
             .pickerStyle(.wheel)
         }
-        //.frame(width: UIScreen.main.bounds.width*0.3, height: UIScreen.main.bounds.height*0.3, alignment: .center)
     }
 }
 

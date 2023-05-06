@@ -14,11 +14,9 @@ struct DivisionsView: View {
     @State private var data = MultipleDivisions.MultipleData()
     
     @State private var showEditSheet = false
-    @State private var chosenDivisionID = UUID()
+    @State private var showAddSheet = false
     
-    @State private var newPeople: [Person] = []
-    @State private var newDivisionName: String = ""
-    @State private var newPerson: String = ""
+    @State private var newDivision: Division = Division.emptyDivision
     
     @Environment(\.scenePhase) private var scenePhase
     let saveAction: ()->Void
@@ -31,297 +29,41 @@ struct DivisionsView: View {
         self.saveAction = saveAction
     }
     
-    //    var body: some View {
-    //        Group {
-    //            if showDivisionView {
-    //                ZStack {
-    //
-    //                    SingleDivisionView(division: Division.getFromID(divisions: $divisions, ID: chosenDivisionID), namespace: namespace, backButtonShown: $backButtonShown, saveAction: saveAction)
-    //
-    //                    Group {
-    //                        if backButtonShown {
-    //                            VStack {
-    //                                Spacer()
-    //                                HStack {
-    //                                    ZStack {
-    //                                        Circle()
-    //                                            .fill(Color(UIColor.systemBackground).opacity(0.8))
-    //                                            .overlay {
-    //                                                Circle()
-    //                                                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-    //                                            }
-    //                                        Button(action: {
-    //                                            withAnimation {
-    //                                                showDivisionView = false
-    //                                            }
-    //                                        }) {
-    //                                            Image(systemName: "chevron.left")
-    //                                                .font(.headline)
-    //                                                .foregroundColor(.primary)
-    //                                                .padding(20)
-    //                                        }
-    //                                    }
-    //                                    .fixedSize()
-    //                                    .matchedGeometryEffect(id: "cancelButton", in: namespace)
-    //                                    Spacer()
-    //                                }
-    //                                .padding(.horizontal)
-    //
-    //                            }
-    //                        } else {}
-    //                    }
-    //                }
-    //            }
-    //
-    //            else {
-    //                VStack {
-    //                    ZStack {
-    //                        RoundedRectangle(cornerRadius: 30)
-    //                        //.fill(LinearGradient(mainColor,mainDarkerColor)) // mozna jakis obrazek cool
-    //                            .fill(theme.mainColor)
-    //                            .ignoresSafeArea()
-    //                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.15, alignment: .center)
-    //                        //.shadow(color: .black.opacity(0.3), radius: 6, x: 1, y: 1)
-    //                            .matchedGeometryEffect(id: "titleBG", in: namespace)
-    //
-    //                        Text("DivCost")
-    //                            .foregroundColor(.black)
-    //                            .padding(20)
-    //                            .font(.system(size: 60).weight(.bold))
-    //
-    //                    }
-    //                    .fixedSize()
-    //
-    //                    Group {
-    //                        if showEditView {
-    //                            ZStack {
-    //
-    //                                EditMultipleDivisionsView(data: $data, namespace: namespace)
-    //
-    //                                VStack {
-    //                                    Spacer()
-    //                                    HStack {
-    //                                        ZStack {
-    //                                            Circle()
-    //                                                .fill(.red.opacity(0.8))
-    //                                                .overlay {
-    //                                                    Circle()
-    //                                                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-    //                                                }
-    //                                            Button(action: {
-    //                                                withAnimation {
-    //                                                    showEditView = false
-    //                                                }
-    //                                            }) {
-    //                                                Image(systemName: "xmark")
-    //                                                    .font(.headline)
-    //                                                    .foregroundColor(.black)
-    //                                                    .padding(20)
-    //                                            }
-    //                                        }
-    //                                        .fixedSize()
-    //                                        .matchedGeometryEffect(id: "cancelButton", in: namespace)
-    //                                        Spacer()
-    //                                        withAnimation {
-    //                                            ZStack {
-    //                                                Circle()
-    //                                                    .fill(Color(UIColor.systemBackground).opacity(0.8))
-    //                                                    .overlay {
-    //                                                        Circle()
-    //                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-    //                                                    }
-    //                                                Button(action: {
-    //                                                    var multipleDivisions = MultipleDivisions(divisions: divisions)
-    //                                                    multipleDivisions.update(from: data)
-    //                                                    divisions = multipleDivisions.unwrap()
-    //                                                    //divisions = divisions.sorted() //moze wg daty sortowanie kiedys
-    //                                                    withAnimation {
-    //                                                        showEditView = false
-    //                                                    }
-    //                                                }) {
-    //                                                    Image(systemName: "checkmark")
-    //                                                        .font(.headline)
-    //                                                        .foregroundColor(.primary)
-    //                                                        .padding(20)
-    //                                                }
-    //                                            }
-    //                                            .fixedSize()
-    //                                            .matchedGeometryEffect(id: "confirmButton", in: namespace)
-    //                                        }
-    //                                    }
-    //                                    .padding(.horizontal)                                }
-    //                            }
-    //                        }
-    //                        else {
-    //                            VStack {
-    //                                Spacer()
-    //                                ZStack {
-    //                                    RoundedRectangle(cornerRadius: 30)
-    //                                        .fill(Material.thin)
-    //                                        .ignoresSafeArea()
-    //                                        .matchedGeometryEffect(id: "topBG", in: namespace)
-    //                                    ScrollView {
-    //                                        ForEach(divisions.sorted()) { division in
-    //                                            Button(action: {
-    //                                                withAnimation {
-    //                                                    showDivisionView = true
-    //                                                } //!!!!!!!!!!
-    //                                                chosenDivisionID = division.id
-    //                                            }) {
-    //                                                ZStack {
-    //                                                    RoundedRectangle(cornerRadius: 20)
-    //                                                        .fill(Color(UIColor.systemBackground))
-    //                                                        .overlay {
-    //                                                            RoundedRectangle(cornerRadius: 20)
-    //                                                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-    //                                                        }
-    //                                                    HStack {
-    //                                                        VStack (alignment: .leading){
-    //                                                            Text(division.name)
-    //                                                                .font(.title.bold())
-    //                                                                .foregroundColor(.primary)
-    //                                                            Spacer()
-    //                                                            ZStack {
-    //                                                                RoundedRectangle(cornerRadius: 10)
-    //                                                                    .fill(division.theme.mainColor)
-    //                                                                    .overlay {
-    //                                                                        RoundedRectangle(cornerRadius: 10)
-    //                                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-    //                                                                    }
-    //                                                                HStack {
-    //                                                                    Label(division.getStringDate(), systemImage: "calendar")
-    //                                                                    Spacer()
-    //                                                                    Label("\(division.total, specifier: "%.2f") zł", systemImage: "banknote")
-    //                                                                    Spacer()
-    //                                                                    Label("\(division.people.count)", systemImage: "person.2")
-    //                                                                }
-    //                                                                .font(.caption)
-    //                                                                .padding(10)
-    //                                                                .foregroundColor(division.theme.textColor)
-    //                                                            }
-    //                                                            .fixedSize(horizontal: false, vertical: true)
-    //                                                        }
-    //                                                        Spacer()
-    //                                                        Image(systemName: "chevron.right")
-    //                                                            .font(.headline)
-    //                                                            .foregroundColor(.primary)
-    //                                                    }
-    //                                                    .padding(20)
-    //                                                }
-    //                                                .fixedSize(horizontal: false, vertical: true)
-    //                                            }
-    //
-    //                                        }
-    //                                        .matchedGeometryEffect(id: "title", in: namespace)
-    //                                        .padding()
-    //                                    }
-    //                                    HStack {
-    //                                        Spacer()
-    //                                        VStack {
-    //                                            Spacer()
-    //                                            ZStack {
-    //                                                Circle()
-    //                                                    .fill(theme.mainColor)
-    //                                                    .overlay {
-    //                                                        Circle()
-    //                                                            .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-    //                                                    }
-    //                                                //.shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 1)
-    //                                                Button(action: {
-    //                                                    let multipleDivisions = MultipleDivisions(divisions: divisions)
-    //                                                    data = multipleDivisions.multipleData
-    //                                                    withAnimation {
-    //                                                        showEditView = true
-    //                                                    }
-    //                                                }) {
-    //                                                    Image(systemName: "plus")
-    //                                                        .font(.headline)
-    //                                                        .foregroundColor(.black)
-    //                                                        .padding(20)
-    //                                                }
-    //                                            }
-    //                                            .fixedSize()
-    //                                            .matchedGeometryEffect(id: "mainCard", in: namespace)
-    //
-    //                                            .matchedGeometryEffect(id: "cancelButton", in: namespace)
-    //                                            .matchedGeometryEffect(id: "confirmButton", in: namespace)
-    //                                        }
-    //                                        .padding(.trailing)
-    //                                    }
-    //                                }
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        .onChange(of: scenePhase) { phase in
-    //            if phase == .inactive { saveAction() }
-    //        }
-    //    }
-    
     var body: some View {
         VStack {
-            //            Text("DivCost")
-            //                .font(.system(size: 60).bold())
-            //                .foregroundColor(.black)
-            //                .offset(x: 0, y: 15)
-            Spacer()
+            Text("DivCost")
+                .font(.system(size: 70).weight(.heavy))
+                .foregroundColor(.black)
+                .offset(x: 0, y: -10)
+            
+            Spacer(minLength: 20)
             List {
-                ForEach($divisions) { $division in
+                ForEach($divisions.sorted {($1.date.wrappedValue,$0.name.wrappedValue) < ($0.date.wrappedValue, $1.name.wrappedValue)}) { $division in
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(Color(UIColor.systemBackground))
                         NavigationLink(destination: SingleDivisionView(division: $division, saveAction: saveAction)) {
-                            HStack {
-                                VStack (alignment: .leading) {
-                                    Text(division.name)
-                                        .font(.title.bold())
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .fill(division.theme.mainColor)
-                                        HStack {
-                                            Label(division.getStringDate(), systemImage: "calendar")
-                                            Spacer()
-                                            Label("\(division.total, specifier: "%.2f") zł", systemImage: "banknote")
-                                            Spacer()
-                                            Label("\(division.people.count)", systemImage: "person.2")
-                                        }
-                                        .font(.caption)
-                                        .padding(10)
-                                        .foregroundColor(division.theme.textColor)
-                                    }
-                                    .fixedSize(horizontal: false, vertical: true)
-                                }
-                                //                                Spacer()
-                                //                                Image(systemName: "chevron.right")
-                                //                                    .font(.headline)
-                                //                                    .foregroundColor(.primary)
-                            }
-                            //                            .padding(20)
+                            SingleDivisionCardView(division: division)
                         }
                         .padding(20)
                     }
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.vertical,-10)
-                    .padding(.top,20)
+                    .padding(.top,10)
                 }
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
-                Spacer(minLength: 100)
+                Spacer(minLength: 200)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
             .background(.ultraThinMaterial)
-            .background(theme.mainColor.opacity(0.2))
             .background(Color(UIColor.systemBackground))
         }
         .background(theme.mainColor)
         .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
+            ToolbarItem(placement: .cancellationAction) {
                 Button(action: {
                     let multipleDivisions = MultipleDivisions(divisions: divisions)
                     data = multipleDivisions.multipleData
@@ -330,16 +72,33 @@ struct DivisionsView: View {
                     }
                 }) {
                     VStack {
-                        Image(systemName: "plus")
+                        Image(systemName: "gear")
+                            .font(.system(size: 20))
                     }
                 }
+                .tint(Color.black)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(action: {
+                    withAnimation {
+                        showAddSheet = true
+                    }
+                }) {
+                    VStack {
+                        Image(systemName: "plus")
+                            .font(.system(size: 20)).bold()
+                    }
+                }
+                .tint(Color.black)
             }
         }
         .sheet(isPresented: $showEditSheet) {
             NavigationView {
                 EditMultipleDivisionsView(data: $data)
-                    .navigationTitle("Edit Divisions")
-                //                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("Manage Divisions")
+                    .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Discard") {
@@ -351,16 +110,48 @@ struct DivisionsView: View {
                                 var multipleDivisions = MultipleDivisions(divisions: divisions)
                                 multipleDivisions.update(from: data)
                                 divisions = multipleDivisions.unwrap()
-                                //divisions = divisions.sorted() //moze wg daty sortowanie kiedys
                                 showEditSheet = false
                             }
                         }
                     }
             }
         }
+        .sheet(isPresented: $showAddSheet) {
+            NavigationView {
+                AddDivisionView(division: $newDivision)
+                    .navigationTitle("Add New Division")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Discard") {
+                                showAddSheet = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    newDivision = Division.emptyDivision
+                                }
+                            }
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Add") {
+                                divisions.append(Division(name: newDivision.name, people: newDivision.people, date: newDivision.date, theme: newDivision.theme))
+                                showAddSheet = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    newDivision = Division.emptyDivision
+                                }
+                            }
+                            .disabled(
+                                newDivision.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                                newDivision.people.isEmpty ||
+                                newDivision.anyNamesEmpty()
+                            )
+                        }
+                    }
+            }
+        }
         .tint(.primary)
+        .onChange(of: scenePhase) { phase in
+            if phase == .inactive { saveAction() }
+        }
     }
-    
 }
 
 struct DivisionsView_Previews: PreviewProvider {

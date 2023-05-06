@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Person: Identifiable, Comparable, Codable {
     static func < (lhs: Person, rhs: Person) -> Bool {
-        if lhs.balance < rhs.balance {
+        if (lhs.balance,rhs.name) < (rhs.balance,lhs.name) {
             return false
         } else {
             return true

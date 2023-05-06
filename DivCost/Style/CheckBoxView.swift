@@ -13,20 +13,15 @@ struct CheckBoxView: View {
     @Binding var checked: Bool
     let color: Color
     let textColor: Color
+    @Binding var allChecked: Bool
+    @Binding var divisionData: Division.Data
     
     var body: some View {
-//        Label(text, systemImage: checked ? "checkmark.circle.fill" : "checkmark.circle")
-//            .labelStyle(DualColorLabel(iconColor: color))
-//            .animation(Animation.easeInOut, value: 0.5)
-//            .onTapGesture {
-//                checked.toggle()
-//            }
-//            .foregroundColor(textColor)
         ZStack {
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 30)
                 .fill(color)
                 .opacity(checked ? 1 : 0)
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 30)
                 .fill(Material.thin)
                 .opacity(checked ? 0 : 1)
             Text(text)
@@ -45,20 +40,16 @@ struct CheckBoxView: View {
         .animation(Animation.easeInOut, value: 0.5)
         .onTapGesture {
             checked.toggle()
+            allChecked = divisionData.allChecked()
         }
     }
 }
 
-//struct CheckBoxView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CheckBoxView(text: "Somebody", checked: .constant(false))
-//    }
-//}
-
 struct test: View {
     @State private var checked: Bool = false
+    @State private var allChecked: Bool = false
     var body: some View {
-        CheckBoxView(text: "Dude", checked: $checked, color: .yellow, textColor: .white)
+        CheckBoxView(text: "Dude", checked: $checked, color: .yellow, textColor: .white, allChecked: $allChecked, divisionData: .constant(Division.sampleDivisions[1].data))
     }
 }
 

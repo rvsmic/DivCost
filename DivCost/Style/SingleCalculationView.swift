@@ -20,9 +20,15 @@ struct SingleCalculationView: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 30)
                         .stroke(theme.mainColor, lineWidth: 5)
+                        .opacity(0.3)
                 }
             HStack {
-                Text(calculation.debtorName)
+                Spacer(minLength: UIScreen.main.bounds.width*0.3).overlay {
+                    HStack {
+                        Text(calculation.debtorName)
+                        Spacer()
+                    }
+                }
                 Spacer()
                 VStack {
                     Text("\(calculation.value, specifier: "%.2f") zł")
@@ -40,7 +46,7 @@ struct SingleCalculationView: View {
                     }
                     .foregroundColor(.white.opacity(0.7))
                     .opacity(colorScheme == .dark ? 1 : 0)
-
+                    
                     VStack {
                         Text("\(calculation.value, specifier: "%.2f") zł")
                             .font(.footnote)
@@ -51,18 +57,22 @@ struct SingleCalculationView: View {
                     .opacity(colorScheme == .dark ? 0 : 1)
                 }
                 Spacer()
-                Text(calculation.payerName)
+                Spacer(minLength: UIScreen.main.bounds.width*0.3).overlay {
+                    HStack() {
+                        Spacer()
+                        Text(calculation.payerName)
+                    }
+                }
             }
             .padding()
             .font(.headline)
         }
-//        .padding()
     }
 }
 
 struct SingleCalculationView_Previews: PreviewProvider {
     static var previews: some View {
         SingleCalculationView(calculation: Calculations.sampleCalculations[0], theme: .lemon)
-            .frame(height: 50)
+            .frame(height: 100)
     }
 }
