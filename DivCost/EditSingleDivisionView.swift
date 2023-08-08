@@ -131,6 +131,5 @@ struct EditSingleDivisionView: View {
 struct EditSingleDivisionView_Previews: PreviewProvider {
     static var previews: some View {
         EditSingleDivisionView(data: .constant(Division.sampleDivisions[1].data))
-        
     }
 }

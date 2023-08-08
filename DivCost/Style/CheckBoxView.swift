@@ -16,6 +16,9 @@ struct CheckBoxView: View {
     @Binding var allChecked: Bool
     @Binding var divisionData: Division.Data
     
+    let personID: UUID
+    @Binding var customAmount: [UUID:String]
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
@@ -37,9 +40,13 @@ struct CheckBoxView: View {
             
         }
         .fixedSize()
-        .animation(Animation.easeInOut, value: 0.5)
         .onTapGesture {
-            checked.toggle()
+            withAnimation(.easeInOut(duration: 0.2)) {
+                checked.toggle()
+                if !checked {
+                    customAmount[personID] = ""
+                }
+            }
             allChecked = divisionData.allChecked()
         }
     }
@@ -49,7 +56,7 @@ struct test: View {
     @State private var checked: Bool = false
     @State private var allChecked: Bool = false
     var body: some View {
-        CheckBoxView(text: "Dude", checked: $checked, color: .yellow, textColor: .white, allChecked: $allChecked, divisionData: .constant(Division.sampleDivisions[1].data))
+        CheckBoxView(text: "Dude", checked: $checked, color: .yellow, textColor: .white, allChecked: $allChecked, divisionData: .constant(Division.sampleDivisions[1].data), personID: UUID(), customAmount: .constant([UUID():"A"]))
     }
 }
 

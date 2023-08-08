@@ -121,6 +121,24 @@ extension Division {
             }
         }
         
+        mutating func addCustomProduct(newName: String, customAmount: [UUID:String], buyerId: UUID, debtorsId: [UUID]) {
+            let totalPrice = customAmount.values.map{ Double($0) ?? 0}.reduce(0, +)
+            let buyerProduct = Product(name: newName, price: totalPrice)
+            
+            for i in 0..<people.count {
+                for j in 0..<debtorsId.count {
+                    if people[i].id == debtorsId[j] {
+                        people[i].debts.append(Product(name: newName, price: Double(customAmount[people[i].id] ?? "0")!))
+                        break
+                    }
+                }
+                
+                if people[i].id == buyerId {
+                    people[i].expenses.append(buyerProduct)
+                }
+            }
+        }
+        
         mutating func checkReset() {
             for i in 0..<people.count {
                 if people[i].checked {

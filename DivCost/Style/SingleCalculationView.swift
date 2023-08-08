@@ -20,8 +20,10 @@ struct SingleCalculationView: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 30)
                         .stroke(theme.mainColor, lineWidth: 5)
-                        .opacity(0.3)
+                        .opacity(0.7)
                 }
+            
+                .clipShape(RoundedRectangle(cornerRadius: 30))
             HStack {
                 Spacer(minLength: UIScreen.main.bounds.width*0.3).overlay {
                     HStack {

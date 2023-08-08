@@ -22,6 +22,9 @@ struct SingleDivisionView: View {
     @State private var newBuyer: String = ""
     @State private var deletedExpense: Bool = false
     
+    @State private var customDivision: Bool = false
+    @State private var customAmount: [UUID:String] = [:]
+    
     @Environment(\.scenePhase) private var scenePhase
     let saveAction: ()->Void
     
@@ -138,6 +141,7 @@ struct SingleDivisionView: View {
                         data = division.data
                         addSheetShown = true
                         newBuyer = division.people[0].name
+                        customAmount = Dictionary(uniqueKeysWithValues: zip(data.people.map{ $0.id },Array(repeating: "", count: data.people.count)))
                     }) {
                         VStack {
                             Image(systemName: "plus")
@@ -148,7 +152,7 @@ struct SingleDivisionView: View {
             }
             .sheet(isPresented: $addSheetShown) {
                 NavigationView {
-                    AddExpensesView(data: $data, newName: $newName, newPrice: $newPrice, newBuyer: $newBuyer, deletedExpense: $deletedExpense)
+                    AddExpensesView(data: $data, newName: $newName, newPrice: $newPrice, newBuyer: $newBuyer, deletedExpense: $deletedExpense, customDivision: $customDivision, customAmount: $customAmount)
                         .navigationTitle("Add Expense")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
@@ -161,6 +165,8 @@ struct SingleDivisionView: View {
                                         newName = ""
                                         newPrice = ""
                                         newBuyer = division.people[0].name
+                                        customDivision = false
+                                        customAmount = [:]
                                     }
                                 }
                             }
@@ -176,6 +182,8 @@ struct SingleDivisionView: View {
                                                 newName = ""
                                                 newPrice = ""
                                                 newBuyer = division.people[0].name
+                                                customDivision = false
+                                                customAmount = [:]
                                             }
                                         }
                                     } else {
@@ -192,18 +200,26 @@ struct SingleDivisionView: View {
                                                     buyerId = person.id
                                                 }
                                             }
-                                            data.addProduct(newName: newName, newPrice: newPrice.toDouble()!, buyerId: buyerId, debtorsId: debtorsId)
+                                            if customDivision {
+                                                data.addCustomProduct(newName: newName, customAmount: customAmount, buyerId: buyerId, debtorsId: debtorsId)
+                                            } else {
+                                                data.addProduct(newName: newName, newPrice: newPrice.toDouble()!, buyerId: buyerId, debtorsId: debtorsId)
+                                            }
                                             data.checkReset()
                                             division.update(from: data)
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                                 newName = ""
                                                 newPrice = ""
                                                 newBuyer = division.people[0].name
+                                                customDivision = false
+                                                customAmount = [:]
                                             }
                                         }
                                         .disabled(
                                             newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-                                            newPrice.isEmpty ||
+                                            (newPrice.isEmpty && !customDivision) ||
+                                            // jezeli ktoras z checked osob nie ma wpisanej kwoty lub ma 0
+                                            (customAmount.filter { data.people.filter { $0.checked }.map { $0.id }.contains($0.key) }.contains { $0.value.isEmpty || (Double($0.value) ?? 0.0) == 0.0 } && customDivision) ||
                                             newBuyer.isEmpty ||
                                             data.people.filter { person in person.checked == true }.count == 0
                                     )
