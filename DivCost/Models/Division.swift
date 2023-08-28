@@ -51,8 +51,8 @@ struct Division: Identifiable, Codable, Comparable {
                     calcPeople[i].staticBalance = 0
                 } else if (person.staticBalance > 0 && calcPeople[i].staticBalance < 0) {
                     calculations.append(Calculations(payerName: person.name, debtorName: calcPeople[i].name, value: person.staticBalance))
-                    person.staticBalance = 0
                     calcPeople[i].staticBalance += person.staticBalance
+                    person.staticBalance = 0
                 }
             }
         }
